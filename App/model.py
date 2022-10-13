@@ -30,21 +30,146 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import quicksort as qs
 assert cf
+import csv
 
-"""
-Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
-los mismos.
-"""
+#=========================================================
+# Creamos el catalogo vacio
+#=========================================================
+def crear_catalogo(tipo_hash):
+    catalog={}
+    catalog['tipo'] = mp.newMap(9688, 
+                        maptype = tipo_hash,
+                        loadfactor = 0.8)
+    catalog['director'] = mp.newMap(9688, 
+                        maptype = tipo_hash,
+                        loadfactor = 0.8)
+    catalog['actor'] = mp.newMap(9688, 
+                        maptype = tipo_hash,
+                        loadfactor = 0.8)
+    catalog['plataforma'] = mp.newMap(9688, 
+                        maptype = tipo_hash,
+                        loadfactor = 0.8)
+    catalog['año'] = mp.newMap(200, 
+                        maptype = tipo_hash,
+                        loadfactor = 0.8)
+    catalog['genero']=mp.newMap(10000, 
+                        maptype = tipo_hash,
+                        loadfactor = 0.8)
 
-# Construccion de modelos
+    return catalog
 
-# Funciones para agregar informacion al catalogo
+#=========================================================
+# Llenamos el catalgo con la info
+#=========================================================
+def crear_mapas(tamanio,catalogo):
 
-# Funciones para creacion de datos
+    peliculas_amazon = cf.data_dir + 'amazon_prime_titles-utf8-' + tamanio + '.csv'
+    peliculas_disney = cf.data_dir + "disney_plus_titles-utf8-" + tamanio + ".csv"
+    peliculas_hulu = cf.data_dir + "hulu_titles-utf8-" + tamanio + ".csv"
+    peliculas_netflix = cf.data_dir + "netflix_titles-utf8-" + tamanio + ".csv"
 
-# Funciones de consulta
+    input_file_amazon = csv.DictReader(open(peliculas_amazon, encoding='utf-8'))
+    input_file_disney = csv.DictReader(open(peliculas_disney, encoding='utf-8'))
+    input_file_hulu= csv.DictReader(open(peliculas_hulu, encoding='utf-8'))
+    input_file_netflix= csv.DictReader(open(peliculas_netflix, encoding='utf-8'))
 
-# Funciones utilizadas para comparar elementos dentro de una lista
+    archivos=[input_file_amazon,input_file_disney,input_file_hulu,input_file_netflix]
+    for archivo in archivos:  
+        for pelicula in archivo:
+            #esta linea agrega al mapa del año la info
+            agregarpelicula(catalogo, pelicula['release_year'],pelicula,'año')
+            #esta linea agrega al mapa del director la info
+            agregarpelicula(catalogo, pelicula['director'],pelicula,'director')
 
-# Funciones de ordenamiento
+            #esta linea agrega al mapa del actor la info
+            actores=pelicula['cast'].split(',')
+            for actor in actores:
+                agregarpelicula(catalogo, actor,pelicula,'actor')
+
+            #esta linea agrega al mapa del tipo la info
+            agregarpelicula(catalogo, pelicula['type'],pelicula,'tipo')
+            #esta linea agrega al mapa del plataforma la info
+            if archivo==input_file_amazon:
+                agregarpelicula(catalogo, 'amazon',pelicula, 'plataforma')
+            elif archivo==input_file_disney:
+                agregarpelicula(catalogo, 'disney',pelicula, 'plataforma')
+            elif archivo==input_file_hulu:
+                agregarpelicula(catalogo, 'hulu',pelicula, 'plataforma')
+            elif archivo==input_file_netflix:
+                agregarpelicula(catalogo, 'netflix',pelicula, 'plataforma')
+
+            #esta linea agrega al mapa de los generos la info
+            generos=pelicula['listed_in'].split(',')
+            for genero in generos:
+                agregarpelicula(catalogo, genero,pelicula,'genero')
+
+
+
+    return  catalogo
+
+def agregarpelicula(catalogo, llave, valor, clase):
+    
+    if mp.contains(catalogo[clase],llave)==True:
+        pareja=mp.get(catalogo[clase],llave)
+        lista=pareja['value']
+        lt.addLast(lista,valor)
+        mp.put(catalogo[clase],llave, lista )
+    else:
+        lista=lt.newList(datastructure="ARRAY_LIST")
+        lt.addLast(lista,valor)
+        mp.put(catalogo[clase],llave, lista )
+    
+
+
+#=========================================================
+# requerimiento 1
+#=========================================================
+def consulta_anios(anio_consulta,catalogo): 
+    if mp.contains(catalogo["año"],anio_consulta)==True:
+        return mp.get(catalogo['año'],anio_consulta)
+    else:
+        return False
+
+#=========================================================
+# requerimiento 3
+#========================================================= 
+def filtro_por_actor(nombre,catalogo):
+    if mp.contains(catalogo["actor"],nombre)==True:
+        return mp.get(catalogo['actor'],nombre)
+    else:
+        return False
+
+
+
+#=========================================================
+# requerimiento 7
+#========================================================= 
+
+def top_genero(catalogo,n):
+    lista_generos=mp.keySet(catalogo['genero'])
+    iterador=lt.iterator(lista_generos)
+
+    lista=lt.newList(datastructure="ARRAY_LIST")
+
+    for genero in iterador:
+        lista_pelicula_genero=mp.get(catalogo['genero'],genero)['value']
+        tamanio=lt.size(lista_pelicula_genero)
+       
+        lt.addLast(lista,(genero,tamanio))
+    
+    qs.sort(lista,cmpsort)
+
+    lista=lt.subList(lista,1,int(n))
+
+    return lista
+    
+
+def cmpsort(tupla1, tupla2):
+    resp=False
+    if tupla1[1]>tupla2[1]:
+        resp=True
+    return resp
+
+  
