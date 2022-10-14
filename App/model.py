@@ -25,6 +25,7 @@
  """
 
 
+import tracemalloc
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
@@ -33,6 +34,8 @@ from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Sorting import quicksort as qs
 assert cf
 import csv
+from datetime import time
+
 
 #=========================================================
 # Creamos el catalogo vacio
@@ -113,7 +116,6 @@ def crear_mapas(tamanio,catalogo):
     return  catalogo
 
 def agregarpelicula(catalogo, llave, valor, clase):
-    
     if mp.contains(catalogo[clase],llave)==True:
         pareja=mp.get(catalogo[clase],llave)
         lista=pareja['value']
@@ -129,64 +131,112 @@ def agregarpelicula(catalogo, llave, valor, clase):
 #=========================================================
 # requerimiento 1   S
 #=========================================================
-def consulta_anios(anio_consulta,catalogo): 
+def consulta_aniopel(anio_consulta,catalogo): 
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
     if mp.contains(catalogo["año"],anio_consulta)==True:
-        return mp.get(catalogo['año'],anio_consulta)
+        resp= mp.get(catalogo['año'],anio_consulta)
     else:
-        return False
+        resp= False
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return resp, delta_memory, delta_time
+
 
 #=========================================================
 # requerimiento 2
 #=========================================================      
-def consulta_anios(anio_consulta,catalogo): 
+def consulta_aniotv(anio_consulta,catalogo): 
+    start_time = getTime()
+    start_memory = getMemory()
     if mp.contains(catalogo["año"],anio_consulta)==True:
-        return mp.get(catalogo['año'],anio_consulta)
+        resp= mp.get(catalogo['año'],anio_consulta)
     else:
-        return False
+        resp= False
+    stop_memory = getMemory()
+    stop_time = getTime()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return resp, delta_memory, delta_time
+
 #=========================================================
 # requerimiento 3  S
 #========================================================= 
 def filtro_por_actor(nombre,catalogo):
+    start_time = getTime()
+    start_memory = getMemory()
     if mp.contains(catalogo["actor"],nombre)==True:
-        return mp.get(catalogo['actor'],nombre)
+        resp= mp.get(catalogo['actor'],nombre)
     else:
-        return False
+        resp= False
+    stop_memory = getMemory()
+    stop_time = getTime()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return resp, delta_memory, delta_time
+
 
 #=========================================================
 # requerimiento 4
 #=========================================================
 def filtro_por_genero(nombre,catalogo):
+    start_time = getTime()
+    start_memory = getMemory()
     if mp.contains(catalogo["genero"],nombre)==True:
-        return mp.get(catalogo['genero'],nombre)
+        resp= mp.get(catalogo['genero'],nombre)
       
     else:
-        return False
-       
+        resp= False
+    stop_memory = getMemory()
+    stop_time = getTime()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return resp, delta_memory, delta_time
 
 #=========================================================
 # requerimiento 5
 #=========================================================
 def filtro_por_pais(nombre,catalogo):
+    start_time = getTime()
+    start_memory = getMemory()
     if mp.contains(catalogo["pais"],nombre)==True:
-        return mp.get(catalogo['pais'],nombre)
+        resp= mp.get(catalogo['pais'],nombre)
     else:
-        return False
+        resp= False
+    stop_memory = getMemory()
+    stop_time = getTime()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return resp, delta_memory, delta_time
 
 
 #=========================================================
 # requerimiento 6
 #=========================================================
 def filtro_por_director(nombre,catalogo):
-    if mp.contains(catalogo["pais"],nombre)==True:
-        return mp.get(catalogo['pais'],nombre)
+    start_time = getTime()
+    start_memory = getMemory()
+    if mp.contains(catalogo["director"],nombre)==True:
+        resp= mp.get(catalogo['director'],nombre)
     else:
-        return False
+        resp= False
+    stop_memory = getMemory()
+    stop_time = getTime()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return resp, delta_memory, delta_time
 
 #=========================================================
 # requerimiento 7    S
 #========================================================= 
 
 def top_genero(catalogo,n):
+    start_time = getTime()
+    start_memory = getMemory()
     lista_generos=mp.keySet(catalogo['genero'])
     iterador=lt.iterator(lista_generos)
 
@@ -210,9 +260,11 @@ def top_genero(catalogo,n):
 
     lista=lt.subList(lista,1,int(n))
 
-
-
-    return lista
+    stop_memory = getMemory()
+    stop_time = getTime()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_memory, delta_time
 
 
     

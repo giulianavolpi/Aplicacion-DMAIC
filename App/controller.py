@@ -53,13 +53,16 @@ def loadData(catalogo, tamanio):
 #=========================================================
 # requerimiento 1
 #=========================================================
-def consulta_anios(anio_consulta,catalogo):
-    lista=model.consulta_anios(anio_consulta,catalogo)
+def consulta_aniopel(anio_consulta,catalogo):
+    lista=model.consulta_aniopel(anio_consulta,catalogo)
     return lista
 
 #=========================================================
 # requerimiento 2
 #========================================================= 
+def consulta_aniotv(anio_consulta,catalogo):
+    lista=model.consulta_aniotv(anio_consulta,catalogo)
+    return lista
 
 #=========================================================
 # requerimiento 3

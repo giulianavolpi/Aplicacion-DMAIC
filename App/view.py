@@ -21,6 +21,7 @@
  """
 
 
+from time import strptime
 import config as cf
 import sys
 import controller
@@ -28,6 +29,7 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 assert cf
 from tabulate import tabulate
+import datetime as dt
 
 default_limit = 1000
 sys.setrecursionlimit(default_limit*10)
@@ -74,14 +76,15 @@ def imprimir_3_primeros_y_ultimos(lista):
 #=========================================================
 # requerimiento 1
 #=========================================================
-def consulta_anios(anio_consulta,catalogo):
-    lista=controller.consulta_anios(anio_consulta,catalogo)
+def consulta_aniopel(anio_consulta,catalogo):
+    lista=controller.consulta_aniopel(anio_consulta,catalogo)
     return lista
 #=========================================================
 # requerimiento 2
 #=========================================================
-
-
+def consulta_aniotv(anio_consulta,catalogo):
+    lista=controller.consulta_aniotv(anio_consulta,catalogo)
+    return lista
 
 #=========================================================
 # requerimiento 3
@@ -141,14 +144,6 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')  
     if int(inputs[0]) == 0:
-        print("Seleccione el tipo de estructura: ")
-        print("1-PROBING")
-        print("2-CHAINING")
-        tipo= int(input("Digite su selección: "))
-        if tipo==1:
-            tipo_hash="PROBING"
-        elif tipo==2:
-            tipo_hash="CHAINING"
 
         print("Seleccione el tamaño de la muestra: ")
         print("a- small")
@@ -180,7 +175,7 @@ while True:
 
         #cargo los archivos
         print("Cargando información de los archivos ....\n")
-        catalogo= controller.crear_catalogo(tipo_hash)
+        catalogo= controller.crear_catalogo()
         delta_time, deltamemory, catalogo=controller.loadData(catalogo, tamano)
 
         #imprimo la primera tabla donde está el numero de peliculas
@@ -200,20 +195,35 @@ while True:
         #organizar los datos en un periodo de tiempo dado
         anio_consulta=input("Digite el año que desea consultar: ")
         
-        dic=consulta_anios(anio_consulta,catalogo)
-        if dic ==False:
-            print('el año esocgido no tiene peliculas')
+        lista=consulta_aniopel(anio_consulta,catalogo)
+        movie=0
+        for dic_peli in lt.iterator(lista):
+            if dic_peli['type']=='Movie':
+                movie+=1
+        if lista==False:
+            print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
         else:
-            lista=dic['value']
-            #ya esta la lista organizada y flitrada, falta presentar unicamente los 3 primero y ultimos peliculas
+            lista=lista['value']
+            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 2:
-        pass
+        fecha = str(input("Escriba la fecha de agregado de programas de televisión a examinar (como 'november 16, 2019'): "))
+        anio_consulta = dt.datetime.strptime(fecha, "%B %d, %Y")
+        lista = consulta_aniotv(anio_consulta,catalogo)
+        tv=0
+        for dic_peli in lt.iterator(lista):
+            if dic_peli['type']=='TV Show':
+                tv+=1
+        if lista==False:
+            print("Lo sentimos, el año de la fecha buscada no se encuentra en la base de datos")
+        else:
+            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 3:
         nombre=input("Escriba el nombre y el apellido del actor que desea buscar: ")
-        lista=filtro_por_actor(nombre,catalogo)['value']
+        lista= filtro_por_actor(nombre,catalogo)['value']
         movie=0
         tv=0
         for dic_peli in lt.iterator(lista):
@@ -238,7 +248,7 @@ while True:
             else:
                 tv+=1
         if lista==False:
-            print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
+            print("Lo sentimos, el género buscado no se encuentra en la base de datos")
         else:
             print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
@@ -254,7 +264,7 @@ while True:
             else:
                 tv+=1
         if lista==False:
-            print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
+            print("Lo sentimos, el país buscado no se encuentra en la base de datos")
         else:
             print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
@@ -269,14 +279,23 @@ while True:
                 movie+=1
             else:
                 tv+=1
+        generos = catalogo["genero"]
+        keys_generos = mp.keySet(generos)
+        generos_lista = lt.newList("ARRAY LIST")
+        for i in lt.iterator(keys_generos):
+            lt.addLast(generos_lista,i)
+        num_gen = lt.size(generos_lista)
+            
+        
+
+
         if lista==False:
-            print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
+            print("Lo sentimos, el director buscado no se encuentra en la base de datos")
         else:
             print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
 
-
-
+        
     if int(inputs[0]) == 7:
         top=input("Escriba cuantas posiciones desea que aparezcan ")
         lista=top_genero(catalogo,top)
