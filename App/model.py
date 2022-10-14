@@ -62,6 +62,10 @@ def crear_catalogo():
                         loadfactor = 0.8)
     catalog['pais']=mp.newMap(200, maptype = "CHAINING",
                         loadfactor = 0.8)
+    #Mapa para el requerimiento 6
+    catalog['director_generos']=mp.newMap(10000, 
+                        maptype = "CHAINING",
+                        loadfactor = 0.8)
 
     return catalog
 
@@ -190,9 +194,25 @@ def filtro_por_pais(nombre,catalogo):
 def filtro_por_director(nombre,catalogo):
     if mp.contains(catalogo["director"],nombre)==True:
         resp= mp.get(catalogo['director'],nombre)
+        mapa = mp.newMap()
+        movieg=0
+        tvg=0
+        agregarpelicula(catalogo, nombre, mapa,'director_generos')
+        for i in resp:
+            gen = (i["listed_in"]).split(",")
+            for a in gen:
+                if mp.contains(mapa[nombre], a):
+                    agregarpelicula(catalogo, a, i,'director_generos')
+                    if i['type']=='Movie':
+                        movieg+=1
+                    else:
+                        tvg+=1
+        por_gen = mp.get(catalogo['director_genero'],nombre)
     else:
         resp= False
-    return resp
+
+    return resp, por_gen
+
 
 #=========================================================
 # requerimiento 7    S

@@ -30,6 +30,7 @@ from DISClib.ADT import map as mp
 assert cf
 from tabulate import tabulate
 import datetime as dt
+import model
 
 default_limit = 1000
 sys.setrecursionlimit(default_limit*10)
@@ -195,6 +196,7 @@ while True:
     if int(inputs[0]) == 1:
         #organizar los datos en un periodo de tiempo dado
         anio_consulta=input("Digite el año que desea consultar: ")
+        print (type(anio_consulta))
         resp=consulta_aniopel(anio_consulta,catalogo)
         lista =resp[0]['value']
         movie=0
@@ -209,8 +211,9 @@ while True:
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 2:
-        fecha = str(input("Escriba la fecha de agregado de programas de televisión a examinar (como 'november 16, 2019'): "))
-        anio_consulta = fecha[-5:]
+        fecha = (input("Escriba la fecha de agregado de programas de televisión a examinar (como 'november 16, 2019'): "))
+        anio_consulta = str(fecha[-4:])
+        print (type(anio_consulta))
         resp = consulta_aniotv(anio_consulta,catalogo)
         lista = resp[0]['value']
         tv=0
@@ -220,7 +223,7 @@ while True:
         if lista==False:
             print("Lo sentimos, el año de la fecha buscada no se encuentra en la base de datos")
         else:
-            print(tabulate([["Movies",movie]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            print(tabulate([['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 3:
@@ -289,19 +292,14 @@ while True:
                 movie+=1
             else:
                 tv+=1
-        generos = catalogo["genero"]
-        keys_generos = mp.keySet(generos)
-        generos_lista = lt.newList("ARRAY LIST")
-        for i in lt.iterator(keys_generos):
-            lt.addLast(generos_lista,i)
-        num_gen = lt.size(generos_lista)
-            
+        
 
         if lista==False:
             print("Lo sentimos, el director buscado no se encuentra en la base de datos")
         else:
             print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
+            imprimir_3_primeros_y_ultimos(lista[1])
 
         
     if int(inputs[0]) == 7:
