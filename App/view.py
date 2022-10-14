@@ -195,6 +195,7 @@ while True:
         #organizar los datos en un periodo de tiempo dado
         anio_consulta=input("Digite el año que desea consultar: ")
         
+    
         lista=consulta_aniopel(anio_consulta,catalogo)
         movie=0
         for dic_peli in lt.iterator(lista):
@@ -270,7 +271,7 @@ while True:
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 6:
-        nombre=input("Inserte el director por el que desea buscar: ")
+        nombre=input("Inserte el director el que desea buscar: ")
         lista= filtro_por_director(nombre,catalogo)['value']
         movie=0
         tv=0
@@ -286,8 +287,6 @@ while True:
             lt.addLast(generos_lista,i)
         num_gen = lt.size(generos_lista)
             
-        
-
 
         if lista==False:
             print("Lo sentimos, el director buscado no se encuentra en la base de datos")

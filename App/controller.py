@@ -35,8 +35,8 @@ El controlador se encarga de mediar entre la vista y el modelo.
 
 # Inicialización del Catálogo de libros
 
-def crear_catalogo(tipo_hash):
-    return model.crear_catalogo(tipo_hash)
+def crear_catalogo():
+    return model.crear_catalogo()
 
 def loadData(catalogo, tamanio):
     tracemalloc.start()
@@ -54,48 +54,111 @@ def loadData(catalogo, tamanio):
 # requerimiento 1
 #=========================================================
 def consulta_aniopel(anio_consulta,catalogo):
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
     lista=model.consulta_aniopel(anio_consulta,catalogo)
-    return lista
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
 
 #=========================================================
 # requerimiento 2
 #========================================================= 
 def consulta_aniotv(anio_consulta,catalogo):
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
     lista=model.consulta_aniotv(anio_consulta,catalogo)
-    return lista
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
 
 #=========================================================
 # requerimiento 3
 #=========================================================
 def filtro_por_actor(nombre,catalogo):
-    return model.filtro_por_actor(nombre, catalogo)
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    lista= model.filtro_por_actor(nombre, catalogo)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
 
 
 #=========================================================
 # requerimiento 4
 #=========================================================
 def filtro_por_genero(nombre,catalogo):
-    return model.filtro_por_genero(nombre,catalogo)
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    lista= model.filtro_por_genero(nombre,catalogo)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
 
 
 #=========================================================
 # requerimiento 5
 #=========================================================
 def filtro_por_pais(nombre,catalogo):
-    return model.filtro_por_pais(nombre,catalogo)
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    lista= model.filtro_por_pais(nombre,catalogo)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
+
 
 
 #=========================================================
 # requerimiento 6
 #=========================================================
 def filtro_por_director(nombre,catalogo):
-    return model.filtro_por_director(nombre,catalogo)
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    lista=model.filtro_por_director(nombre,catalogo)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
+
+
 #=========================================================
 # requerimiento 7
 #=========================================================
 def top_genero(catalogo,n):
-    resp=model.top_genero(catalogo,n)
-    return resp
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    lista=model.top_genero(catalogo,n)
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    delta_time = deltaTime(stop_time, start_time)
+    delta_memory = deltaMemory(stop_memory, start_memory)
+    return lista, delta_time, delta_memory
 
 #=========================================================
 # requerimiento Bono
