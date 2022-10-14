@@ -87,6 +87,15 @@ def crear_mapas(tamanio,catalogo):
     archivos=[input_file_amazon,input_file_disney,input_file_hulu,input_file_netflix]
     for archivo in archivos:  
         for pelicula in archivo:
+            if archivo==input_file_amazon:
+                pelicula['plataforma']='amazon'
+            elif archivo==input_file_disney:
+                pelicula['plataforma']='disney'
+            elif archivo==input_file_hulu:
+                pelicula['plataforma']='hulu'
+            elif archivo==input_file_netflix:
+                pelicula['plataforma']='netflix'
+
             #esta linea agrega al mapa del año la info
             agregarpelicula(catalogo, pelicula['release_year'],pelicula,'año')
             #esta linea agrega al mapa del director la info
@@ -193,7 +202,7 @@ def filtro_por_pais(nombre,catalogo):
 #=========================================================
 def filtro_por_director(nombre,catalogo):
     if mp.contains(catalogo["director"],nombre)==True:
-        resp= mp.get(catalogo['director'],nombre)
+        resp= mp.get(catalogo['director'],nombre)['value']['elements']
         mapa = mp.newMap()
         movieg=0
         tvg=0
@@ -201,15 +210,18 @@ def filtro_por_director(nombre,catalogo):
         for i in resp:
             gen = (i["listed_in"]).split(",")
             for a in gen:
-                if mp.contains(mapa[nombre], a):
+                #no entiendo que intentan hacer aca. Se supone que aca intentan meter al catalogo los generos?
+                if mp.contains(catalogo['director_generos'], a)==False:
                     agregarpelicula(catalogo, a, i,'director_generos')
                     if i['type']=='Movie':
                         movieg+=1
                     else:
                         tvg+=1
+
         por_gen = mp.get(catalogo['director_genero'],nombre)
     else:
         resp= False
+        por_gen=False
 
     return resp, por_gen
 
@@ -228,15 +240,27 @@ def top_genero(catalogo,n):
         tamanio=lt.size(lista_pelicula_genero)
         movie=0
         tv=0
+        ama=0
+        net=0
+        hul=0
+        dis=0
         iterador2=lt.iterator(lista_pelicula_genero)
         for pelicula in iterador2:
             if pelicula['type']=='Movie':
                 movie+=1
             elif pelicula['type']=='TV Show':
                 tv+=1
+            if pelicula['plataforma']=='amazon':
+                ama+=1
+            elif pelicula['plataforma']=='netflix':
+                net+=1
+            elif pelicula['plataforma']=='hulu':
+                hul+=1
+            else:
+                dis+=1
 
        
-        lt.addLast(lista,(genero,tamanio,movie,tv))
+        lt.addLast(lista,(genero,tamanio,movie,tv,ama,net,hul,dis))
     
     qs.sort(lista,cmpsort)
 

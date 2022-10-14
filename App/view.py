@@ -318,9 +318,9 @@ while True:
         lista_imprimi=[]
         for i in range(1,lt.size(lista)+1):
             tupla=lt.getElement(lista,i)
-            lista_pe=[tupla[0],tupla[1],tupla[2],tupla[3]]
+            lista_pe=[tupla[0],tupla[1],tupla[2],tupla[3],tupla[4],tupla[5],tupla[6],tupla[7]]
             lista_imprimi.append(lista_pe)
-        print(tabulate(lista_imprimi,headers=['genero','cantidad que aparecen','conteo movie','conteo tv show'],tablefmt="fancy_grid" ))
+        print(tabulate(lista_imprimi,headers=['genero','cantidad que aparecen','conteo movie','conteo tv show','amazon','netflix','hulu','disney'],tablefmt="fancy_grid" ))
         print("\n")
 
 
