@@ -47,10 +47,14 @@ def imprimir_3_primeros_y_ultimos(lista):
         lista_imprimir=[]
         for i in range(1,4):
             dic=lt.getElement(lista,i)
+            if len(dic['description'])>50:
+                dic['description']=dic['description'][0:50]
             lista_pequeña=[dic["title"],dic["release_year"],dic["director"],dic["duration"],dic["cast"],dic["country"],dic["listed_in"], dic["description"]]
             lista_imprimir.append(lista_pequeña)
         for i in range(lt.size(lista)-2,lt.size(lista)+1):
             dic=lt.getElement(lista,i)
+            if len(dic['description'])>50:
+                dic['description']=dic['description'][0:50]
             lista_pequeña=[dic["title"],dic["release_year"],dic["director"],dic["duration"],dic["cast"],dic["country"],dic["listed_in"], dic["description"]]
             lista_imprimir.append(lista_pequeña)
         print(tabulate(lista_imprimir,headers=["TÍTULO", "LANZAMIENTO","DIRECTOR","DURACIÓN","CASTING","PAÍS","GÉNERO","DESCRIPCIÓN"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10,10,10]  ))
@@ -59,6 +63,8 @@ def imprimir_3_primeros_y_ultimos(lista):
         lista_imprimir=[]
         for i in range(1,lt.size(lista)+1):
             dic=lt.getElement(lista,i)
+            if len(dic['description'])>50:
+                dic['description']=dic['description'][0:50]
             lista_pequeña=[dic["title"],dic["release_year"],dic["director"],dic["duration"],dic["cast"],dic["country"],dic["listed_in"], dic["description"]]
             lista_imprimir.append(lista_pequeña)
         print(tabulate(lista_imprimir,headers=["TÍTULO", "LANZAMIENTO","DIRECTOR","DURACIÓN","CASTING","PAÍS","GÉNERO","DESCRIPCIÓN"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10,10,10] ))
@@ -203,6 +209,14 @@ while True:
             lista_pequeña=[tupla[0],tupla[1]]
             lista_imprimir.append(lista_pequeña)
         print(tabulate(lista_imprimir,headers=['genero','cantidad que aparecen'],tablefmt="fancy_grid" ))
+        print("\n")
+
+        lista_imprimi=[]
+        for i in range(1,lt.size(lista)+1):
+            tupla=lt.getElement(lista,i)
+            lista_pe=[tupla[0],tupla[1],tupla[2],tupla[3]]
+            lista_imprimi.append(lista_pe)
+        print(tabulate(lista_imprimi,headers=['genero','cantidad que aparecen','conteo movie','conteo tv show'],tablefmt="fancy_grid" ))
         print("\n")
 
 

@@ -152,18 +152,30 @@ def top_genero(catalogo,n):
     iterador=lt.iterator(lista_generos)
 
     lista=lt.newList(datastructure="ARRAY_LIST")
-
     for genero in iterador:
         lista_pelicula_genero=mp.get(catalogo['genero'],genero)['value']
         tamanio=lt.size(lista_pelicula_genero)
+        movie=0
+        tv=0
+        iterador2=lt.iterator(lista_pelicula_genero)
+        for pelicula in iterador2:
+            if pelicula['type']=='Movie':
+                movie+=1
+            elif pelicula['type']=='TV Show':
+                tv+=1
+
        
-        lt.addLast(lista,(genero,tamanio))
+        lt.addLast(lista,(genero,tamanio,movie,tv))
     
     qs.sort(lista,cmpsort)
 
     lista=lt.subList(lista,1,int(n))
 
+
+
     return lista
+
+
     
 
 def cmpsort(tupla1, tupla2):
