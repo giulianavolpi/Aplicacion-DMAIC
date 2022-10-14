@@ -56,13 +56,37 @@ def loadData(catalogo, tamanio):
 def consulta_anios(anio_consulta,catalogo):
     lista=model.consulta_anios(anio_consulta,catalogo)
     return lista
-    
+
+#=========================================================
+# requerimiento 2
+#========================================================= 
+
 #=========================================================
 # requerimiento 3
 #=========================================================
 def filtro_por_actor(nombre,catalogo):
     return model.filtro_por_actor(nombre, catalogo)
 
+
+#=========================================================
+# requerimiento 4
+#=========================================================
+def filtro_por_genero(nombre,catalogo):
+    return model.filtro_por_genero(nombre,catalogo)
+
+
+#=========================================================
+# requerimiento 5
+#=========================================================
+def filtro_por_pais(nombre,catalogo):
+    return model.filtro_por_pais(nombre,catalogo)
+
+
+#=========================================================
+# requerimiento 6
+#=========================================================
+def filtro_por_director(nombre,catalogo):
+    return model.filtro_por_director(nombre,catalogo)
 #=========================================================
 # requerimiento 7
 #=========================================================
@@ -70,6 +94,9 @@ def top_genero(catalogo,n):
     resp=model.top_genero(catalogo,n)
     return resp
 
+#=========================================================
+# requerimiento Bono
+#=========================================================
 #MEDIR TIEMPO--------------------------------------------------
 def getTime():
     """

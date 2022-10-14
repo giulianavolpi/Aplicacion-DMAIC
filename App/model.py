@@ -57,6 +57,8 @@ def crear_catalogo(tipo_hash):
     catalog['genero']=mp.newMap(10000, 
                         maptype = tipo_hash,
                         loadfactor = 0.8)
+    catalog['pais']=mp.newMap(200, maptype = tipo_hash,
+                        loadfactor = 0.8)
 
     return catalog
 
@@ -82,7 +84,8 @@ def crear_mapas(tamanio,catalogo):
             agregarpelicula(catalogo, pelicula['release_year'],pelicula,'año')
             #esta linea agrega al mapa del director la info
             agregarpelicula(catalogo, pelicula['director'],pelicula,'director')
-
+            #esta linea agrega al mapa del pais la info
+            agregarpelicula(catalogo, pelicula['country'],pelicula,'pais')
             #esta linea agrega al mapa del actor la info
             actores=pelicula['cast'].split(',')
             for actor in actores:
@@ -124,7 +127,7 @@ def agregarpelicula(catalogo, llave, valor, clase):
 
 
 #=========================================================
-# requerimiento 1
+# requerimiento 1   S
 #=========================================================
 def consulta_anios(anio_consulta,catalogo): 
     if mp.contains(catalogo["año"],anio_consulta)==True:
@@ -133,7 +136,15 @@ def consulta_anios(anio_consulta,catalogo):
         return False
 
 #=========================================================
-# requerimiento 3
+# requerimiento 2
+#=========================================================      
+def consulta_anios(anio_consulta,catalogo): 
+    if mp.contains(catalogo["año"],anio_consulta)==True:
+        return mp.get(catalogo['año'],anio_consulta)
+    else:
+        return False
+#=========================================================
+# requerimiento 3  S
 #========================================================= 
 def filtro_por_actor(nombre,catalogo):
     if mp.contains(catalogo["actor"],nombre)==True:
@@ -141,10 +152,38 @@ def filtro_por_actor(nombre,catalogo):
     else:
         return False
 
+#=========================================================
+# requerimiento 4
+#=========================================================
+def filtro_por_genero(nombre,catalogo):
+    if mp.contains(catalogo["genero"],nombre)==True:
+        return mp.get(catalogo['genero'],nombre)
+      
+    else:
+        return False
+       
+
+#=========================================================
+# requerimiento 5
+#=========================================================
+def filtro_por_pais(nombre,catalogo):
+    if mp.contains(catalogo["pais"],nombre)==True:
+        return mp.get(catalogo['pais'],nombre)
+    else:
+        return False
 
 
 #=========================================================
-# requerimiento 7
+# requerimiento 6
+#=========================================================
+def filtro_por_director(nombre,catalogo):
+    if mp.contains(catalogo["pais"],nombre)==True:
+        return mp.get(catalogo['pais'],nombre)
+    else:
+        return False
+
+#=========================================================
+# requerimiento 7    S
 #========================================================= 
 
 def top_genero(catalogo,n):
@@ -166,10 +205,18 @@ def top_genero(catalogo,n):
     return lista
     
 
+
+
+#=========================================================
+# requerimiento Bono
+#=========================================================
+
+
+#=========================================================
+# Funciones de comparación
+#=========================================================
 def cmpsort(tupla1, tupla2):
     resp=False
     if tupla1[1]>tupla2[1]:
         resp=True
     return resp
-
-  

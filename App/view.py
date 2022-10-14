@@ -20,6 +20,7 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
+
 import config as cf
 import sys
 import controller
@@ -70,12 +71,37 @@ def imprimir_3_primeros_y_ultimos(lista):
 def consulta_anios(anio_consulta,catalogo):
     lista=controller.consulta_anios(anio_consulta,catalogo)
     return lista
+#=========================================================
+# requerimiento 2
+#=========================================================
+
+
 
 #=========================================================
 # requerimiento 3
 #=========================================================
 def filtro_por_actor(nombre,catalogo):
     lista=controller.filtro_por_actor(nombre,catalogo)
+    return lista
+
+#=========================================================
+# requerimiento 4
+#=========================================================
+def filtro_por_genero(nombre,catalogo):
+    lista=controller.filtro_por_genero(nombre,catalogo)
+    return lista
+
+#=========================================================
+# requerimiento 5
+#=========================================================
+def filtro_por_pais(nombre,catalogo):
+    lista=controller.filtro_por_pais(nombre,catalogo)
+    return lista
+#=========================================================
+# requerimiento 6
+#=========================================================
+def filtro_por_director(nombre,catalogo):
+    lista=controller.filtro_por_director(nombre,catalogo)
     return lista
 #=========================================================
 # requerimiento 7
@@ -84,7 +110,9 @@ def top_genero(catalogo,n):
     lista=controller.top_genero(catalogo,n)
     return lista
 
-
+#=========================================================
+# requerimiento Bono
+#=========================================================
 def printMenu():
     print("Bienvenido")
     print("0- Cargar datos")
@@ -192,6 +220,56 @@ while True:
         else:
             print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
+
+    if int(inputs[0]) == 4:
+        nombre=input("Inserte el género por el que desea buscar: ")
+        lista= filtro_por_genero(nombre,catalogo)['value']
+        movie=0
+        tv=0
+        for dic_peli in lt.iterator(lista):
+            if dic_peli['type']=='Movie':
+                movie+=1
+            else:
+                tv+=1
+        if lista==False:
+            print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
+        else:
+            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            imprimir_3_primeros_y_ultimos(lista)
+
+    if int(inputs[0]) == 5:
+        nombre=input("Inserte el país por el que desea buscar: ")
+        lista= filtro_por_pais(nombre,catalogo)['value']
+        movie=0
+        tv=0
+        for dic_peli in lt.iterator(lista):
+            if dic_peli['type']=='Movie':
+                movie+=1
+            else:
+                tv+=1
+        if lista==False:
+            print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
+        else:
+            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            imprimir_3_primeros_y_ultimos(lista)
+
+    if int(inputs[0]) == 6:
+        nombre=input("Inserte el director por el que desea buscar: ")
+        lista= filtro_por_director(nombre,catalogo)['value']
+        movie=0
+        tv=0
+        for dic_peli in lt.iterator(lista):
+            if dic_peli['type']=='Movie':
+                movie+=1
+            else:
+                tv+=1
+        if lista==False:
+            print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
+        else:
+            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            imprimir_3_primeros_y_ultimos(lista)
+
+
 
     if int(inputs[0]) == 7:
         top=input("Escriba cuantas posiciones desea que aparezcan ")
