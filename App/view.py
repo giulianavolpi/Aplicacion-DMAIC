@@ -143,6 +143,7 @@ catalog = None
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')  
+    
     if int(inputs[0]) == 0:
 
         print("Seleccione el tamaño de la muestra: ")
@@ -194,9 +195,8 @@ while True:
     if int(inputs[0]) == 1:
         #organizar los datos en un periodo de tiempo dado
         anio_consulta=input("Digite el año que desea consultar: ")
-        
-    
-        lista=consulta_aniopel(anio_consulta,catalogo)
+        resp=consulta_aniopel(anio_consulta,catalogo)
+        lista =resp[0]['value']
         movie=0
         for dic_peli in lt.iterator(lista):
             if dic_peli['type']=='Movie':
@@ -204,14 +204,15 @@ while True:
         if lista==False:
             print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
         else:
-            lista=lista['value']
-            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            lista
+            print(tabulate([["Movies",movie]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 2:
         fecha = str(input("Escriba la fecha de agregado de programas de televisión a examinar (como 'november 16, 2019'): "))
-        anio_consulta = dt.datetime.strptime(fecha, "%B %d, %Y")
-        lista = consulta_aniotv(anio_consulta,catalogo)
+        anio_consulta = fecha[-5:]
+        resp = consulta_aniotv(anio_consulta,catalogo)
+        lista = resp[0]['value']
         tv=0
         for dic_peli in lt.iterator(lista):
             if dic_peli['type']=='TV Show':
@@ -219,12 +220,14 @@ while True:
         if lista==False:
             print("Lo sentimos, el año de la fecha buscada no se encuentra en la base de datos")
         else:
-            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            print(tabulate([["Movies",movie]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 3:
         nombre=input("Escriba el nombre y el apellido del actor que desea buscar: ")
-        lista= filtro_por_actor(nombre,catalogo)['value']
+        resp = filtro_por_actor(nombre,catalogo)
+        lista = resp[0]
+        lista= lista['value']
         movie=0
         tv=0
         for dic_peli in lt.iterator(lista):
@@ -240,7 +243,9 @@ while True:
 
     if int(inputs[0]) == 4:
         nombre=input("Inserte el género por el que desea buscar: ")
-        lista= filtro_por_genero(nombre,catalogo)['value']
+        resp = filtro_por_genero(nombre,catalogo)
+        lista = resp[0]
+        lista= lista['value']
         movie=0
         tv=0
         for dic_peli in lt.iterator(lista):
@@ -255,8 +260,10 @@ while True:
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 5:
-        nombre=input("Inserte el país por el que desea buscar: ")
-        lista= filtro_por_pais(nombre,catalogo)['value']
+        nombre=input("Inserte el país por el que desea buscar: ") 
+        resp= filtro_por_pais(nombre,catalogo)
+        lista = resp[0]
+        lista= lista['value']
         movie=0
         tv=0
         for dic_peli in lt.iterator(lista):
@@ -272,7 +279,9 @@ while True:
 
     if int(inputs[0]) == 6:
         nombre=input("Inserte el director el que desea buscar: ")
-        lista= filtro_por_director(nombre,catalogo)['value']
+        resp= filtro_por_director(nombre,catalogo)
+        lista = resp[0]
+        lista= lista['value']
         movie=0
         tv=0
         for dic_peli in lt.iterator(lista):
@@ -297,7 +306,8 @@ while True:
         
     if int(inputs[0]) == 7:
         top=input("Escriba cuantas posiciones desea que aparezcan ")
-        lista=top_genero(catalogo,top)
+        resp=top_genero(catalogo,top)
+        lista = resp[0]
         lista_imprimir=[]
 
         for i in range(1,lt.size(lista)+1):
