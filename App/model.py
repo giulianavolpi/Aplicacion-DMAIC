@@ -63,7 +63,7 @@ def crear_catalogo():
     catalog['pais']=mp.newMap(200, maptype = "CHAINING",
                         loadfactor = 0.8)
     #Mapa para el requerimiento 6
-    catalog['director_generos']=mp.newMap(10000, 
+    catalog['director_generos']=mp.newMap(2, 
                         maptype = "CHAINING",
                         loadfactor = 0.8)
 
@@ -123,6 +123,7 @@ def crear_mapas(tamanio,catalogo):
             generos=pelicula['listed_in'].split(',')
             for genero in generos:
                 agregarpelicula(catalogo, genero,pelicula,'genero')
+
 
 
 
@@ -203,21 +204,27 @@ def filtro_por_pais(nombre,catalogo):
 def filtro_por_director(nombre,catalogo):
     if mp.contains(catalogo["director"],nombre)==True:
         resp= mp.get(catalogo['director'],nombre)['value']['elements']
-        mapa = mp.newMap()
+        mapa = mp.newMap(2, 
+                        maptype = "PROBING",
+                        loadfactor = 0.8)
         movieg=0
         tvg=0
-        agregarpelicula(catalogo, nombre, mapa,'director_generos')
+        print(mapa)
+        print('\n')
+        mp.put(catalogo['director_generos'],nombre,mapa)
+        print(mp.get(catalogo['director_generos'],nombre))
         for i in resp:
             gen = (i["listed_in"]).split(",")
             for a in gen:
-                #no entiendo que intentan hacer aca. Se supone que aca intentan meter al catalogo los generos?
-                if mp.contains(catalogo['director_generos'], a)==False:
-                    agregarpelicula(catalogo, a, i,'director_generos')
+                if mp.contains(mp.get(catalogo['director_generos'],nombre)['value'],a)==False:
+                    mp.put(mp.get(catalogo['director_generos'],nombre)['value'],a,i)
                     if i['type']=='Movie':
                         movieg+=1
                     else:
                         tvg+=1
-
+                else:
+                    mp.get
+                    #en este paso me falta insertarle los datos al segundo mapa
         por_gen = mp.get(catalogo['director_genero'],nombre)
     else:
         resp= False
