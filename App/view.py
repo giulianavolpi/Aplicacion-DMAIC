@@ -282,24 +282,36 @@ while True:
 
     if int(inputs[0]) == 6:
         nombre=input("Inserte el director el que desea buscar: ")
-        resp= filtro_por_director(nombre,catalogo)
-        lista = resp[0]
-        lista= lista['value']
-        movie=0
-        tv=0
-        for dic_peli in lt.iterator(lista):
-            if dic_peli['type']=='Movie':
-                movie+=1
-            else:
-                tv+=1
-        
+        lista, delta_time, delta_memory= filtro_por_director(nombre,catalogo)
 
         if lista==False:
             print("Lo sentimos, el director buscado no se encuentra en la base de datos")
         else:
-            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
-            imprimir_3_primeros_y_ultimos(lista)
-            imprimir_3_primeros_y_ultimos(lista[1])
+            movie=0
+            tv=0
+            ama=0
+            net=0
+            hul=0
+            dis=0
+            lista_imprimir3=[]
+            for tup in lt.iterator(lista):
+                lista_imprimir3.append([tup[0],tup[1]])
+                movie+=tup[2]
+                tv+=tup[3]
+                ama+=tup[4]
+                net+=tup[5]
+                hul+=tup[6]
+                dis+=tup[7]
+
+            lista_imprimir1=[['Movie',movie],['Tv show',tv]]
+            lista_imprimir2=[['amazon',ama],['netflix',net],['hulu',hul],['disney',dis]]
+            lista30= mp.get(catalogo['director'],nombre)['value']
+            
+            print(tabulate(lista_imprimir1,headers=['type','count'],tablefmt="fancy_grid" ))
+            print(tabulate(lista_imprimir2,headers=['service name','count'],tablefmt="fancy_grid" ))
+            print(tabulate(lista_imprimir3,headers=['listed in','count'],tablefmt="fancy_grid" ))
+            imprimir_3_primeros_y_ultimos(lista30)
+
 
         
     if int(inputs[0]) == 7:

@@ -142,7 +142,7 @@ def filtro_por_director(nombre,catalogo):
     tracemalloc.stop()
     delta_time = deltaTime(stop_time, start_time)
     delta_memory = deltaMemory(stop_memory, start_memory)
-    return lista[0], lista[1], delta_time, delta_memory
+    return lista, delta_time, delta_memory
 
 
 #=========================================================

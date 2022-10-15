@@ -202,35 +202,51 @@ def filtro_por_pais(nombre,catalogo):
 # requerimiento 6
 #=========================================================
 def filtro_por_director(nombre,catalogo):
-    if mp.contains(catalogo["director"],nombre)==True:
-        resp= mp.get(catalogo['director'],nombre)['value']['elements']
-        mapa = mp.newMap(2, 
-                        maptype = "PROBING",
-                        loadfactor = 0.8)
-        movieg=0
-        tvg=0
-        print(mapa)
-        print('\n')
-        mp.put(catalogo['director_generos'],nombre,mapa)
-        print(mp.get(catalogo['director_generos'],nombre))
-        for i in resp:
-            gen = (i["listed_in"]).split(",")
-            for a in gen:
-                if mp.contains(mp.get(catalogo['director_generos'],nombre)['value'],a)==False:
-                    mp.put(mp.get(catalogo['director_generos'],nombre)['value'],a,i)
-                    if i['type']=='Movie':
-                        movieg+=1
-                    else:
-                        tvg+=1
-                else:
-                    mp.get
-                    #en este paso me falta insertarle los datos al segundo mapa
-        por_gen = mp.get(catalogo['director_genero'],nombre)
-    else:
-        resp= False
-        por_gen=False
+    lista_generos=mp.keySet(catalogo['genero'])
+    iterador=lt.iterator(lista_generos)
+    dic={}
+    for genero in iterador:
+        dic[genero]= 0
+        movie=0
+        tv=0
+        ama=0
+        net=0
+        hul=0
+        dis=0
 
-    return resp, por_gen
+    if mp.contains(catalogo["director"],nombre)==True:
+        lista= mp.get(catalogo['director'],nombre)['value']['elements']
+
+        for pelicula in lista:
+            generos = (pelicula["listed_in"]).split(",")
+            for gen in generos:
+                dic[gen]+=1
+            if pelicula['type']=='Movie':
+                movie+=1
+            elif pelicula['type']=='TV Show':
+                tv+=1
+            if pelicula['plataforma']=='amazon':
+                ama+=1
+            elif pelicula['plataforma']=='netflix':
+                net+=1
+            elif pelicula['plataforma']=='hulu':
+                hul+=1
+            else:
+                dis+=1
+    else:
+        lista_grande=False
+
+    lista_grande=lt.newList(datastructure="ARRAY_LIST")
+    for llave in dic.keys():
+        if dic[llave]>0:
+            lt.addLast(lista_grande,(llave,dic[llave],movie,tv,ama,net,hul,dis))
+
+    qs.sort(lista_grande,cmpsort)
+
+    
+
+
+    return lista_grande
 
 
 #=========================================================
@@ -293,3 +309,4 @@ def cmpsort(tupla1, tupla2):
     if tupla1[1]>tupla2[1]:
         resp=True
     return resp
+
