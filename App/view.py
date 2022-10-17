@@ -28,7 +28,7 @@ import controller
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 assert cf
-#from tabulate import tabulate
+from tabulate import tabulate
 import datetime as dt
 import model
 
@@ -61,7 +61,7 @@ def imprimir_3_primeros_y_ultimos(lista):
                 dic['description']=dic['description'][0:50]
             lista_pequeña=[dic["title"],dic["release_year"],dic["director"],dic["duration"],dic["cast"],dic["country"],dic["listed_in"], dic["description"]]
             lista_imprimir.append(lista_pequeña)
-        #print(tabulate(lista_imprimir,headers=["TÍTULO", "LANZAMIENTO","DIRECTOR","DURACIÓN","CASTING","PAÍS","GÉNERO","DESCRIPCIÓN"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10,10,10]  ))
+        print(tabulate(lista_imprimir,headers=["TÍTULO", "LANZAMIENTO","DIRECTOR","DURACIÓN","CASTING","PAÍS","GÉNERO","DESCRIPCIÓN"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10,10,10]  ))
         print("\n")
     else:
         lista_imprimir=[]
@@ -71,7 +71,7 @@ def imprimir_3_primeros_y_ultimos(lista):
                 dic['description']=dic['description'][0:50]
             lista_pequeña=[dic["title"],dic["release_year"],dic["director"],dic["duration"],dic["cast"],dic["country"],dic["listed_in"], dic["description"]]
             lista_imprimir.append(lista_pequeña)
-        #print(tabulate(lista_imprimir,headers=["TÍTULO", "LANZAMIENTO","DIRECTOR","DURACIÓN","CASTING","PAÍS","GÉNERO","DESCRIPCIÓN"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10,10,10] ))
+        print(tabulate(lista_imprimir,headers=["TÍTULO", "LANZAMIENTO","DIRECTOR","DURACIÓN","CASTING","PAÍS","GÉNERO","DESCRIPCIÓN"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10,10,10] ))
         print("\n")
 
 #=========================================================
@@ -121,7 +121,7 @@ def top_genero(catalogo,n):
     return lista
 
 #=========================================================
-# requerimiento Bono
+# MENU COMPLETO
 #=========================================================
 def printMenu():
     print("Bienvenido")
@@ -175,17 +175,17 @@ while True:
         elif tamano=="h":
             tamano="large"
 
-        #cargo los archivos
+        #cargar los archivos
         print("Cargando información de los archivos ....\n")
         catalogo= controller.crear_catalogo()
         delta_time, deltamemory, catalogo=controller.loadData(catalogo, tamano)
 
-        #imprimo la primera tabla donde está el numero de peliculas
+        #imprimit la primera tabla donde está el numero de peliculas
         tabla_numero_peliculas=[["Netflix",lt.size(mp.get(catalogo['plataforma'],'netflix')['value'])],
         ["Amazon",lt.size(mp.get(catalogo['plataforma'],'amazon')['value'])],
         ["Hulu",lt.size(mp.get(catalogo['plataforma'],'hulu')['value'])],
         ["Disney",lt.size(mp.get(catalogo['plataforma'],'disney')['value'])]]
-        #print(tabulate(tabla_numero_peliculas,headers=["Plataforma", "Numero peliculas"],tablefmt="fancy_grid" ))
+        print(tabulate(tabla_numero_peliculas,headers=["Plataforma", "Numero peliculas"],tablefmt="fancy_grid" ))
         plataforma=['netflix','hulu','disney','amazon']
         for plat in plataforma:
             print('lista para la plataforma '+plat)
@@ -207,7 +207,7 @@ while True:
             print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
         else:
             lista
-            #print(tabulate([["Movies",movie]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            print(tabulate([["Movies",movie]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 2:
@@ -223,7 +223,7 @@ while True:
         if lista==False:
             print("Lo sentimos, el año de la fecha buscada no se encuentra en la base de datos")
         else:
-            #print(tabulate([['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            print(tabulate([['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 3:
@@ -241,7 +241,7 @@ while True:
         if lista==False:
             print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
         else:
-            #print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 4:
@@ -259,7 +259,7 @@ while True:
         if lista==False:
             print("Lo sentimos, el género buscado no se encuentra en la base de datos")
         else:
-            #print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 5:
@@ -277,7 +277,7 @@ while True:
         if lista==False:
             print("Lo sentimos, el país buscado no se encuentra en la base de datos")
         else:
-            #print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
+            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
 
     if int(inputs[0]) == 6:
@@ -307,9 +307,9 @@ while True:
             lista_imprimir2=[['amazon',ama],['netflix',net],['hulu',hul],['disney',dis]]
             lista30= mp.get(catalogo['director'],nombre)['value']
             
-            #print(tabulate(lista_imprimir1,headers=['type','count'],tablefmt="fancy_grid" ))
-            #print(tabulate(lista_imprimir2,headers=['service name','count'],tablefmt="fancy_grid" ))
-            #print(tabulate(lista_imprimir3,headers=['listed in','count'],tablefmt="fancy_grid" ))
+            print(tabulate(lista_imprimir1,headers=['type','count'],tablefmt="fancy_grid" ))
+            print(tabulate(lista_imprimir2,headers=['service name','count'],tablefmt="fancy_grid" ))
+            print(tabulate(lista_imprimir3,headers=['listed in','count'],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista30)
 
 
@@ -324,7 +324,7 @@ while True:
             tupla=lt.getElement(lista,i)
             lista_pequeña=[tupla[0],tupla[1]]
             lista_imprimir.append(lista_pequeña)
-        #print(tabulate(lista_imprimir,headers=['genero','cantidad que aparecen'],tablefmt="fancy_grid" ))
+        print(tabulate(lista_imprimir,headers=['genero','cantidad que aparecen'],tablefmt="fancy_grid" ))
         print("\n")
 
         lista_imprimi=[]
@@ -332,7 +332,7 @@ while True:
             tupla=lt.getElement(lista,i)
             lista_pe=[tupla[0],tupla[1],tupla[2],tupla[3],tupla[4],tupla[5],tupla[6],tupla[7]]
             lista_imprimi.append(lista_pe)
-        #print(tabulate(lista_imprimi,headers=['genero','cantidad que aparecen','conteo movie','conteo tv show','amazon','netflix','hulu','disney'],tablefmt="fancy_grid" ))
+        print(tabulate(lista_imprimi,headers=['genero','cantidad que aparecen','conteo movie','conteo tv show','amazon','netflix','hulu','disney'],tablefmt="fancy_grid" ))
         print("\n")
 
 
