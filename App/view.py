@@ -1,24 +1,10 @@
 ﻿"""
- * Copyright 2020, Departamento de sistemas y Computación, Universidad
- * de Los Andes
- *
- *
- * Desarrolado para el curso ISIS1225 - Estructuras de Datos y Algoritmos
- *
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
- """
+La vista se encarga de la interacción con el usuario
+Presenta el menu de opciones y por cada seleccion
+se hace la solicitud al controlador para ejecutar la
+operación solicitada
+"""
+
 
 
 from time import strptime
@@ -35,12 +21,6 @@ import model
 default_limit = 1000
 sys.setrecursionlimit(default_limit*10)
 
-"""
-La vista se encarga de la interacción con el usuario
-Presenta el menu de opciones y por cada seleccion
-se hace la solicitud al controlador para ejecutar la
-operación solicitada
-"""
 
 #=========================================================
 # Funcion para imprimir
@@ -126,14 +106,14 @@ def top_genero(catalogo,n):
 def printMenu():
     print("Bienvenido")
     print("0- Cargar datos")
-    print("1- Listar peliculas en un periodo")
-    print("2- Listar programas de televisión en un periodo")
-    print("3- Encontrar contenido donde participa un actor")
-    print("4- Contenido filtrado por género específico")
-    print("5- Contenido filtrado por país específico")
-    print("6- Contenido filtrado por director específico")
-    print("7- Top n elementos")
-    print("8- Tipo de ordenamiento")
+    print("1- Introducción Aplicación")
+    print("2- Análisis Indicador")
+    print("3- Cálculo de porcentajes caña")
+    print("4- Impresión resultados obtenidos")
+    print("5- x")
+    print("6- x")
+    print("7- x")
+    print("8- x")
     print("11- Salir ")
 
 catalog = None
