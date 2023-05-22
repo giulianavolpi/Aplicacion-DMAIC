@@ -114,8 +114,8 @@ def printMenu():
     print("0- Cargar datos")
     print("1- Introducción Aplicación")
     print("2- Análisis Indicador")
-    print("3- Cálculo de porcentajes caña")
-    print("4- Impresión resultados obtenidos")
+    print("3- Cálculo de porcentajes de desperdicio")
+    print("4- Requisitos para desperdicio mínimo")
     print("5- x")
     print("6- x")
     print("7- x")
@@ -175,12 +175,13 @@ while True:
         print(tabulate(tabla_numero_peliculas,headers=["Plataforma", "Numero peliculas"],tablefmt="fancy_grid" ))
         plataforma=['netflix','hulu','disney','amazon']
         """
-        print('Impresicarga de datos')
+        print('Impresión carga de datos')
+        """
         empresas = lt.size(mp.get(catalogo['nombre'],empresa)['value'])
         for empresa in empresas:
             
             imprimir_3_primeros_y_ultimos(mp.get(catalogo['nombre'],empresa)['value'])
-
+        """
         print ("Tiempo de ejecución: " , delta_time)
         print ("Memoria utilizada: ", deltamemory)
         

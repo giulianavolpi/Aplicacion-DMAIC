@@ -59,7 +59,7 @@ def crear_mapas(catalogo):
     peliculas_hulu = cf.data_dir + "hulu_titles-utf8-" + tamanio + ".csv"
     peliculas_netflix = cf.data_dir + "netflix_titles-utf8-" + tamanio + ".csv"
     """
-    base_de_datos = cf.data_dir + 'Base de Datos DMAIC-utf8' + '.csv'
+    base_de_datos = cf.data_dir + 'Base de Datos DMAIC' + '.csv'
     
     input_file_datos = csv.DictReader(open(base_de_datos, encoding='utf-8'))
     """
@@ -71,12 +71,14 @@ def crear_mapas(catalogo):
     archivos=[input_file_amazon,input_file_disney,input_file_hulu,input_file_netflix]
     """
     datos = [input_file_datos]
-    for empresa in datos: 
-        agregarempresa(catalogo, empresa["id_empresa"], empresa, "id")
-        agregarempresa(catalogo, empresa["toneladas_cana"], empresa, "toneladas_cana")
-        agregarempresa(catalogo, empresa["cantidad_maquinas"], empresa, "cantidad_maquinas")
-        agregarempresa(catalogo, empresa["operarios"], empresa, "operarios")
-        agregarempresa(catalogo, empresa["porcentaje_deseado"], empresa, "porcentaje")
+    for dato in datos: 
+        for empresa in dato:
+            print(empresa("nombre"))
+            agregarempresa(catalogo, empresa["nombre"], empresa, "nombre")
+            agregarempresa(catalogo, empresa["toneladas_cana"], empresa, "toneladas_cana")
+            agregarempresa(catalogo, empresa["cantidad_maquinas"], empresa, "cantidad_maquinas")
+            agregarempresa(catalogo, empresa["operarios"], empresa, "operarios")
+            agregarempresa(catalogo, empresa["porcentaje_deseado"], empresa, "porcentaje")
 
     """
     for archivo in archivos:  
@@ -147,19 +149,34 @@ def consulta_aniopel(anio_consulta,catalogo):
         resp= False
    
     return resp
-def porcent_cana(indicador, catalogo):
+
+def intro():
+    intro = "A partir de las estadísticas del sector azucarero colombiano y de los datos brindados por \n el ingenio Riopaila y Castilla se realizó un programa para calcular y analizar el indicador de desempeño frente a distintas empresas.  "
+    esp = "Con los valores se distintas empresas se puede calcular el porcentaje de desperdicio o para obtener un porcentaje desead \n se calcuan las cantidades de máquinas y de operarios necesariaos."
+    cnc = "Se llegó a la conclusión que el la mejor distribución entre caña larga y caña mecanizada es la siguiente: \n"
+    porc = " Caña larga: 35%\n"
+    porc2 = "Caña mecanizada : 65%"
+    resp = intro + esp + cnc + porc + porc2
+
+    return resp
+
     
 
 
 #=========================================================
 # requerimiento 2
 #=========================================================      
- def consulta_aniotv(anio_consulta,catalogo): 
+def consulta_aniotv(anio_consulta,catalogo): 
     if mp.contains(catalogo["año"],anio_consulta)==True:
         resp= mp.get(catalogo['año'],anio_consulta)
     else:
         resp= False
    
+    return resp
+def analisis_indic():
+    a = "El idicador de desempeño calcula la capacidad de desperdicio de caña por vagones al distribuir la caña entre un contre manual y uno mecanizado\n"
+    b = "El cálculo del indicador es: Desperdicio = 1-(Capacidad de caña larga por vagón / Capacidad de caña mecanizada por vagón)\n"
+    resp = a+b 
     return resp
 
 #=========================================================
@@ -171,6 +188,16 @@ def filtro_por_actor(nombre,catalogo):
     else:
         resp= False
     return resp
+def porcent_desperdicio(larga, mecanizada, nombre, catalogo):
+    lista = lt.newList()
+    desp = 1 - (larga/mecanizada)
+    if mp.contains(catalogo["nombre"],nombre)==True:
+        cantidad= mp.get(catalogo['cantidad_cana'],nombre)
+        cantidad = cantidad * desp
+  
+    lt.addLast(lista,desp)
+    lt.addLast(lista,cantidad)
+    return lista
 
 
 #=========================================================
@@ -183,6 +210,21 @@ def filtro_por_genero(nombre,catalogo):
     else:
         resp= False
     return resp
+
+def para_porcent(nombre, catalogo):
+    lista = lt.newList()
+    if mp.contains(catalogo["nombre"],nombre)==True:
+        cantidad= mp.get(catalogo['cantidad_cana'],nombre)
+
+        larga = cantidad * 0.35
+        mecan = cantidad * 0.65
+
+        personas = round((larga/5.5),0)
+        maquinas = round((mecan/160),0)
+        lt.addLast(lista,personas)
+        lt.addLast(lista,maquinas)
+    
+    return lista 
 
 #=========================================================
 # requerimiento 5
