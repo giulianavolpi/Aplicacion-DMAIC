@@ -31,27 +31,33 @@ def imprimir_3_primeros_y_ultimos(lista):
         lista_imprimir=[]
         for i in range(1,4):
             dic=lt.getElement(lista,i)
+            """
             if len(dic['description'])>50:
                 dic['description']=dic['description'][0:50]
-            lista_pequeña=[dic["title"],dic["release_year"],dic["director"],dic["duration"],dic["cast"],dic["country"],dic["listed_in"], dic["description"]]
+            """
+            lista_pequeña=[dic["id"],dic["nombre"],dic["toneladas_cana"],dic["cantidad_maquinas"],dic["operarios"],dic["porcentaje"]]
             lista_imprimir.append(lista_pequeña)
         for i in range(lt.size(lista)-2,lt.size(lista)+1):
             dic=lt.getElement(lista,i)
+            """
             if len(dic['description'])>50:
                 dic['description']=dic['description'][0:50]
-            lista_pequeña=[dic["title"],dic["release_year"],dic["director"],dic["duration"],dic["cast"],dic["country"],dic["listed_in"], dic["description"]]
+            """
+            lista_pequeña=[dic["id"],dic["nombre"],dic["toneladas_cana"],dic["cantidad_maquinas"],dic["operarios"],dic["porcentaje"]]
             lista_imprimir.append(lista_pequeña)
-        print(tabulate(lista_imprimir,headers=["TÍTULO", "LANZAMIENTO","DIRECTOR","DURACIÓN","CASTING","PAÍS","GÉNERO","DESCRIPCIÓN"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10,10,10]  ))
+        print(tabulate(lista_imprimir,headers=["ID" , "NOMBRE", "TONELADAS CAÑA","CANTIDAD MAQUINAS","OPERARIOS","PORCENTAJE DESEADO"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10]  ))
         print("\n")
     else:
         lista_imprimir=[]
         for i in range(1,lt.size(lista)+1):
             dic=lt.getElement(lista,i)
+            """
             if len(dic['description'])>50:
                 dic['description']=dic['description'][0:50]
-            lista_pequeña=[dic["title"],dic["release_year"],dic["director"],dic["duration"],dic["cast"],dic["country"],dic["listed_in"], dic["description"]]
+            """
+            lista_pequeña=[dic["id"], dic["nombre"],dic["toneladas_cana"],dic["cantidad_maquinas"],dic["operarios"],dic["porcentaje"]]
             lista_imprimir.append(lista_pequeña)
-        print(tabulate(lista_imprimir,headers=["TÍTULO", "LANZAMIENTO","DIRECTOR","DURACIÓN","CASTING","PAÍS","GÉNERO","DESCRIPCIÓN"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10,10,10] ))
+        print(tabulate(lista_imprimir,headers=["ID", "NOMBRE", "TONELADAS CAÑA","CANTIDAD MAQUINAS","OPERARIOS","PORCENTAJE DESEADO"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10]  ))
         print("\n")
 
 #=========================================================
@@ -126,7 +132,7 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')  
     
     if int(inputs[0]) == 0:
-
+        """
         print("Seleccione el tamaño de la muestra: ")
         print("a- small")
         print("b- 5pct")
@@ -154,22 +160,27 @@ while True:
             tamano = "80pct"
         elif tamano=="h":
             tamano="large"
-
+        """
         #cargar los archivos
         print("Cargando información de los archivos ....\n")
         catalogo= controller.crear_catalogo()
-        delta_time, deltamemory, catalogo=controller.loadData(catalogo, tamano)
+        delta_time, deltamemory, catalogo=controller.loadData(catalogo)
 
         #imprimit la primera tabla donde está el numero de peliculas
+        """
         tabla_numero_peliculas=[["Netflix",lt.size(mp.get(catalogo['plataforma'],'netflix')['value'])],
         ["Amazon",lt.size(mp.get(catalogo['plataforma'],'amazon')['value'])],
         ["Hulu",lt.size(mp.get(catalogo['plataforma'],'hulu')['value'])],
         ["Disney",lt.size(mp.get(catalogo['plataforma'],'disney')['value'])]]
         print(tabulate(tabla_numero_peliculas,headers=["Plataforma", "Numero peliculas"],tablefmt="fancy_grid" ))
         plataforma=['netflix','hulu','disney','amazon']
-        for plat in plataforma:
-            print('lista para la plataforma '+plat)
-            imprimir_3_primeros_y_ultimos(mp.get(catalogo['plataforma'],plat)['value'])
+        """
+        print('Impresicarga de datos')
+        empresas = lt.size(mp.get(catalogo['nombre'],empresa)['value'])
+        for empresa in empresas:
+            
+            imprimir_3_primeros_y_ultimos(mp.get(catalogo['nombre'],empresa)['value'])
+
         print ("Tiempo de ejecución: " , delta_time)
         print ("Memoria utilizada: ", deltamemory)
         

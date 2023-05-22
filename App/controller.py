@@ -18,11 +18,11 @@ csv.field_size_limit(2147483647)
 def crear_catalogo():
     return model.crear_catalogo()
 
-def loadData(catalogo, tamanio):
+def loadData(catalogo):
     tracemalloc.start()
     start_time = getTime()
     start_memory = getMemory()
-    catalogo = model.crear_mapas(tamanio,catalogo)
+    catalogo = model.crear_mapas(catalogo)
     stop_memory = getMemory()
     stop_time = getTime()
     tracemalloc.stop()

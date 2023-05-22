@@ -21,49 +21,64 @@ from datetime import time
 #=========================================================
 def crear_catalogo():
     catalog={}
-    catalog['tipo'] = mp.newMap(9688, 
+    catalog['id_empresa'] = mp.newMap(9688, 
                         maptype = "CHAINING",
                         loadfactor = 0.8)
-    catalog['director'] = mp.newMap(9688, 
+    catalog['nombre'] = mp.newMap(9688, 
                         maptype = "CHAINING",
                         loadfactor = 0.8)
-    catalog['actor'] = mp.newMap(9688, 
+    catalog['toneladas_cana'] = mp.newMap(9688, 
                         maptype = "CHAINING",
                         loadfactor = 0.8)
-    catalog['plataforma'] = mp.newMap(9688, 
+    catalog['cantidad_maquinas'] = mp.newMap(9688, 
                         maptype = "CHAINING",
                         loadfactor = 0.8)
-    catalog['año'] = mp.newMap(200, 
+    catalog['operarios'] = mp.newMap(200, 
                         maptype = "CHAINING",
                         loadfactor = 0.8)
-    catalog['genero']=mp.newMap(10000, 
+    catalog['porcentaje_deseado']=mp.newMap(10000, 
                         maptype = "CHAINING",
                         loadfactor = 0.8)
+    """
     catalog['pais']=mp.newMap(200, maptype = "CHAINING",
                         loadfactor = 0.8)
     #Mapa para el requerimiento 6
     catalog['director_generos']=mp.newMap(2, 
                         maptype = "CHAINING",
                         loadfactor = 0.8)
-
+    """
     return catalog
 
 #=========================================================
 # Llenamos el catalgo con la info
 #=========================================================
-def crear_mapas(tamanio,catalogo):
-
+def crear_mapas(catalogo):
+    """
     peliculas_amazon = cf.data_dir + 'amazon_prime_titles-utf8-' + tamanio + '.csv'
     peliculas_disney = cf.data_dir + "disney_plus_titles-utf8-" + tamanio + ".csv"
     peliculas_hulu = cf.data_dir + "hulu_titles-utf8-" + tamanio + ".csv"
     peliculas_netflix = cf.data_dir + "netflix_titles-utf8-" + tamanio + ".csv"
-
+    """
+    base_de_datos = cf.data_dir + 'Base de Datos DMAIC-utf8' + '.csv'
+    
+    input_file_datos = csv.DictReader(open(base_de_datos, encoding='utf-8'))
+    """
     input_file_amazon = csv.DictReader(open(peliculas_amazon, encoding='utf-8'))
     input_file_disney = csv.DictReader(open(peliculas_disney, encoding='utf-8'))
     input_file_hulu= csv.DictReader(open(peliculas_hulu, encoding='utf-8'))
     input_file_netflix= csv.DictReader(open(peliculas_netflix, encoding='utf-8'))
-
+    
     archivos=[input_file_amazon,input_file_disney,input_file_hulu,input_file_netflix]
+    """
+    datos = [input_file_datos]
+    for empresa in datos: 
+        agregarempresa(catalogo, empresa["id_empresa"], empresa, "id")
+        agregarempresa(catalogo, empresa["toneladas_cana"], empresa, "toneladas_cana")
+        agregarempresa(catalogo, empresa["cantidad_maquinas"], empresa, "cantidad_maquinas")
+        agregarempresa(catalogo, empresa["operarios"], empresa, "operarios")
+        agregarempresa(catalogo, empresa["porcentaje_deseado"], empresa, "porcentaje")
+
+    """
     for archivo in archivos:  
         for pelicula in archivo:
             if archivo==input_file_amazon:
@@ -102,13 +117,13 @@ def crear_mapas(tamanio,catalogo):
             generos=pelicula['listed_in'].split(',')
             for genero in generos:
                 agregarpelicula(catalogo, genero,pelicula,'genero')
-
+            """
 
 
 
     return  catalogo
 
-def agregarpelicula(catalogo, llave, valor, clase):
+def agregarempresa(catalogo, llave, valor, clase):
     if mp.contains(catalogo[clase],llave)==True:
         pareja=mp.get(catalogo[clase],llave)
         lista=pareja['value']
@@ -118,7 +133,8 @@ def agregarpelicula(catalogo, llave, valor, clase):
         lista=lt.newList(datastructure="ARRAY_LIST")
         lt.addLast(lista,valor)
         mp.put(catalogo[clase],llave, lista )
-    
+
+
 
 
 #=========================================================
