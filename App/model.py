@@ -131,12 +131,14 @@ def consulta_aniopel(anio_consulta,catalogo):
         resp= False
    
     return resp
+def porcent_cana(indicador, catalogo):
+    
 
 
 #=========================================================
 # requerimiento 2
 #=========================================================      
-def consulta_aniotv(anio_consulta,catalogo): 
+ def consulta_aniotv(anio_consulta,catalogo): 
     if mp.contains(catalogo["año"],anio_consulta)==True:
         resp= mp.get(catalogo['año'],anio_consulta)
     else:
