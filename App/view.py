@@ -61,53 +61,35 @@ def imprimir_3_primeros_y_ultimos(lista):
         print("\n")
 
 #=========================================================
-# requerimiento 1
+# R. Intriducción al porgrama 
 #=========================================================
-def consulta_aniopel(anio_consulta,catalogo):
-    lista=controller.consulta_aniopel(anio_consulta,catalogo)
+def intro():
+    lista=controller.intro()
     return lista
 #=========================================================
-# requerimiento 2
+# R. Análisis Indicador 
 #=========================================================
-def consulta_aniotv(anio_consulta,catalogo):
-    lista=controller.consulta_aniotv(anio_consulta,catalogo)
-    return lista
-
-#=========================================================
-# requerimiento 3
-#=========================================================
-def filtro_por_actor(nombre,catalogo):
-    lista=controller.filtro_por_actor(nombre,catalogo)
+def analisis_indic():
+    lista=controller.analisis_indic()
     return lista
 
 #=========================================================
-# requerimiento 4
+# R. Cálculo de porcentaje desperdiciado
 #=========================================================
-def filtro_por_genero(nombre,catalogo):
-    lista=controller.filtro_por_genero(nombre,catalogo)
+def porcent_desperdicio(larga, mecanizada, nombre, catalogo):
+    lista=controller.porcent_desperdicio(larga, mecanizada, nombre, catalogo)
     return lista
 
-#=========================================================
-# requerimiento 5
-#=========================================================
-def filtro_por_pais(nombre,catalogo):
-    lista=controller.filtro_por_pais(nombre,catalogo)
-    return lista
-#=========================================================
-# requerimiento 6
-#=========================================================
-def filtro_por_director(nombre,catalogo):
-    lista=controller.filtro_por_director(nombre,catalogo)
-    return lista
-#=========================================================
-# requerimiento 7
-#=========================================================
-def top_genero(catalogo,n):
-    lista=controller.top_genero(catalogo,n)
+#===================================================================
+# R. Requerimientos en máquinas y operarios para desperdicio mínimo
+#===================================================================
+def para_porcent(nombre,catalogo):
+    lista=controller.para_porcent(nombre,catalogo)
     return lista
 
+
 #=========================================================
-# MENU COMPLETO
+# MENU
 #=========================================================
 def printMenu():
     print("Bienvenido")
@@ -116,10 +98,6 @@ def printMenu():
     print("2- Análisis Indicador")
     print("3- Cálculo de porcentajes de desperdicio")
     print("4- Requisitos para desperdicio mínimo")
-    print("5- x")
-    print("6- x")
-    print("7- x")
-    print("8- x")
     print("11- Salir ")
 
 catalog = None
@@ -132,56 +110,20 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')  
     
     if int(inputs[0]) == 0:
-        """
-        print("Seleccione el tamaño de la muestra: ")
-        print("a- small")
-        print("b- 5pct")
-        print("c- 10pct")
-        print("d- 20pct")
-        print("e- 30pct")
-        print("f- 50pct")
-        print("g- 80pct")
-        print("h- large")
-
-        tamano = input("Digite su selección: ")
-        if tamano == "a":
-            tamano = "small"
-        elif tamano == "b":
-            tamano = "5pct"
-        elif tamano == "c":
-            tamano = "10pct"
-        elif tamano == "d":
-            tamano = "20pct"
-        elif tamano == "e":
-            tamano = "30pct"
-        elif tamano == "f":
-            tamano = "50pct"
-        elif tamano == "g":
-            tamano = "80pct"
-        elif tamano=="h":
-            tamano="large"
-        """
         #cargar los archivos
         print("Cargando información de los archivos ....\n")
         catalogo= controller.crear_catalogo()
         delta_time, deltamemory, catalogo=controller.loadData(catalogo)
 
         #imprimit la primera tabla donde está el numero de peliculas
-        """
-        tabla_numero_peliculas=[["Netflix",lt.size(mp.get(catalogo['plataforma'],'netflix')['value'])],
-        ["Amazon",lt.size(mp.get(catalogo['plataforma'],'amazon')['value'])],
-        ["Hulu",lt.size(mp.get(catalogo['plataforma'],'hulu')['value'])],
-        ["Disney",lt.size(mp.get(catalogo['plataforma'],'disney')['value'])]]
-        print(tabulate(tabla_numero_peliculas,headers=["Plataforma", "Numero peliculas"],tablefmt="fancy_grid" ))
-        plataforma=['netflix','hulu','disney','amazon']
-        """
+       
         print('Impresión carga de datos')
-        """
+       
         empresas = lt.size(mp.get(catalogo['nombre'],empresa)['value'])
         for empresa in empresas:
             
             imprimir_3_primeros_y_ultimos(mp.get(catalogo['nombre'],empresa)['value'])
-        """
+        
         print ("Tiempo de ejecución: " , delta_time)
         print ("Memoria utilizada: ", deltamemory)
         
@@ -253,80 +195,6 @@ while True:
         else:
             print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
             imprimir_3_primeros_y_ultimos(lista)
-
-    if int(inputs[0]) == 5:
-        nombre=input("Inserte el país por el que desea buscar: ") 
-        resp= filtro_por_pais(nombre,catalogo)
-        lista = resp[0]
-        lista= lista['value']
-        movie=0
-        tv=0
-        for dic_peli in lt.iterator(lista):
-            if dic_peli['type']=='Movie':
-                movie+=1
-            else:
-                tv+=1
-        if lista==False:
-            print("Lo sentimos, el país buscado no se encuentra en la base de datos")
-        else:
-            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
-            imprimir_3_primeros_y_ultimos(lista)
-
-    if int(inputs[0]) == 6:
-        nombre=input("Inserte el director el que desea buscar: ")
-        lista, delta_time, delta_memory= filtro_por_director(nombre,catalogo)
-
-        if lista==False:
-            print("Lo sentimos, el director buscado no se encuentra en la base de datos")
-        else:
-            movie=0
-            tv=0
-            ama=0
-            net=0
-            hul=0
-            dis=0
-            lista_imprimir3=[]
-            for tup in lt.iterator(lista):
-                lista_imprimir3.append([tup[0],tup[1]])
-                movie+=tup[2]
-                tv+=tup[3]
-                ama+=tup[4]
-                net+=tup[5]
-                hul+=tup[6]
-                dis+=tup[7]
-
-            lista_imprimir1=[['Movie',movie],['Tv show',tv]]
-            lista_imprimir2=[['amazon',ama],['netflix',net],['hulu',hul],['disney',dis]]
-            lista30= mp.get(catalogo['director'],nombre)['value']
-            
-            print(tabulate(lista_imprimir1,headers=['type','count'],tablefmt="fancy_grid" ))
-            print(tabulate(lista_imprimir2,headers=['service name','count'],tablefmt="fancy_grid" ))
-            print(tabulate(lista_imprimir3,headers=['listed in','count'],tablefmt="fancy_grid" ))
-            imprimir_3_primeros_y_ultimos(lista30)
-
-
-        
-    if int(inputs[0]) == 7:
-        top=input("Escriba cuantas posiciones desea que aparezcan ")
-        resp=top_genero(catalogo,top)
-        lista = resp[0]
-        lista_imprimir=[]
-
-        for i in range(1,lt.size(lista)+1):
-            tupla=lt.getElement(lista,i)
-            lista_pequeña=[tupla[0],tupla[1]]
-            lista_imprimir.append(lista_pequeña)
-        print(tabulate(lista_imprimir,headers=['genero','cantidad que aparecen'],tablefmt="fancy_grid" ))
-        print("\n")
-
-        lista_imprimi=[]
-        for i in range(1,lt.size(lista)+1):
-            tupla=lt.getElement(lista,i)
-            lista_pe=[tupla[0],tupla[1],tupla[2],tupla[3],tupla[4],tupla[5],tupla[6],tupla[7]]
-            lista_imprimi.append(lista_pe)
-        print(tabulate(lista_imprimi,headers=['genero','cantidad que aparecen','conteo movie','conteo tv show','amazon','netflix','hulu','disney'],tablefmt="fancy_grid" ))
-        print("\n")
-
 
 printMenu()
 
