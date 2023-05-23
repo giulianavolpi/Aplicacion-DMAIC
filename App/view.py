@@ -89,8 +89,7 @@ while True:
         print (resp[0])
         print (resp[1])
         print (resp[2])
-        print (resp[3])
-        print (resp[5])
+     
 
 
     if int(inputs[0]) == 2:
@@ -105,7 +104,7 @@ while True:
         nombre=input("Digíte el nombre de la empresa: ")
         larga=input("Digíte la cantidad de caña larga: ")
         mecanizada=input("Digíte la cantidad de caña larga: ")
-        resp = porcent_desperdicio(nombre,catalogo)
+        resp = porcent_desperdicio(larga, mecanizada, nombre, catalogo)
         
         desperdicio = resp[0]
         cantidad = resp[0]
