@@ -102,7 +102,7 @@ while True:
     if int(inputs[0]) == 3:
         nombre=input("Digíte el nombre de la empresa: ")
         larga=input("Digíte la cantidad de caña larga: ")
-        mecanizada=input("Digíte la cantidad de caña larga: ")
+        mecanizada=input("Digíte la cantidad de caña mecanizada: ")
         resp = porcent_desperdicio(larga, mecanizada, nombre, catalogo)
         
         desperdicio = resp[0]
