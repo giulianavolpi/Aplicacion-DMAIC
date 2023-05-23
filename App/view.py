@@ -21,45 +21,6 @@ import model
 default_limit = 1000
 sys.setrecursionlimit(default_limit*10)
 
-
-#=========================================================
-# Funcion para imprimir
-#=========================================================
-def imprimir_3_primeros_y_ultimos(lista):
-    #imprime para el caso especial de consulta entre años
-    if lt.size(lista)>=6:
-        lista_imprimir=[]
-        for i in range(1,4):
-            dic=lt.getElement(lista,i)
-            """
-            if len(dic['description'])>50:
-                dic['description']=dic['description'][0:50]
-            """
-            lista_pequeña=[dic["id"],dic["nombre"],dic["toneladas_cana"],dic["cantidad_maquinas"],dic["operarios"],dic["porcentaje"]]
-            lista_imprimir.append(lista_pequeña)
-        for i in range(lt.size(lista)-2,lt.size(lista)+1):
-            dic=lt.getElement(lista,i)
-            """
-            if len(dic['description'])>50:
-                dic['description']=dic['description'][0:50]
-            """
-            lista_pequeña=[dic["id"],dic["nombre"],dic["toneladas_cana"],dic["cantidad_maquinas"],dic["operarios"],dic["porcentaje"]]
-            lista_imprimir.append(lista_pequeña)
-        print(tabulate(lista_imprimir,headers=["ID" , "NOMBRE", "TONELADAS CAÑA","CANTIDAD MAQUINAS","OPERARIOS","PORCENTAJE DESEADO"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10]  ))
-        print("\n")
-    else:
-        lista_imprimir=[]
-        for i in range(1,lt.size(lista)+1):
-            dic=lt.getElement(lista,i)
-            """
-            if len(dic['description'])>50:
-                dic['description']=dic['description'][0:50]
-            """
-            lista_pequeña=[dic["id"], dic["nombre"],dic["toneladas_cana"],dic["cantidad_maquinas"],dic["operarios"],dic["porcentaje"]]
-            lista_imprimir.append(lista_pequeña)
-        print(tabulate(lista_imprimir,headers=["ID", "NOMBRE", "TONELADAS CAÑA","CANTIDAD MAQUINAS","OPERARIOS","PORCENTAJE DESEADO"],tablefmt="fancy_grid",maxcolwidths=[10,10,10,10,10,10]  ))
-        print("\n")
-
 #=========================================================
 # R. Intriducción al porgrama 
 #=========================================================
@@ -113,89 +74,56 @@ while True:
         #cargar los archivos
         print("Cargando información de los archivos ....\n")
         catalogo= controller.crear_catalogo()
-        delta_time, deltamemory, catalogo=controller.loadData(catalogo)
-
-        #imprimit la primera tabla donde está el numero de peliculas
        
-        print('Impresión carga de datos')
+        print('Datos cargados correctamente')
        
-        empresas = lt.size(mp.get(catalogo['nombre'],empresa)['value'])
-        for empresa in empresas:
-            
-            imprimir_3_primeros_y_ultimos(mp.get(catalogo['nombre'],empresa)['value'])
         
-        print ("Tiempo de ejecución: " , delta_time)
-        print ("Memoria utilizada: ", deltamemory)
+
         
     if int(inputs[0]) == 1:
-        #organizar los datos en un periodo de tiempo dado
+        
         anio_consulta=input("Digite el año que desea consultar: ")
-        print (type(anio_consulta))
-        resp=consulta_aniopel(anio_consulta,catalogo)
-        lista =resp[0]['value']
-        movie=0
-        for dic_peli in lt.iterator(lista):
-            if dic_peli['type']=='Movie':
-                movie+=1
-        if lista==False:
-            print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
-        else:
-            lista
-            print(tabulate([["Movies",movie]],headers=["type", "count"],tablefmt="fancy_grid" ))
-            imprimir_3_primeros_y_ultimos(lista)
+        print ("Bienvenido a la Aplicación DMAIC")
+        print ("Se calculará el desperdicio en el manejo de caña larga y caña mecanizada en los vagones")
+        resp=intro()
+        print (resp[0])
+        print (resp[1])
+        print (resp[2])
+        print (resp[3])
+        print (resp[5])
+
 
     if int(inputs[0]) == 2:
-        fecha = (input("Escriba la fecha de agregado de programas de televisión a examinar (como 'november 16, 2019'): "))
-        anio_consulta = str(fecha[-4:])
-        print (type(anio_consulta))
-        resp = consulta_aniotv(anio_consulta,catalogo)
-        lista = resp[0]['value']
-        tv=0
-        for dic_peli in lt.iterator(lista):
-            if dic_peli['type']=='TV Show':
-                tv+=1
-        if lista==False:
-            print("Lo sentimos, el año de la fecha buscada no se encuentra en la base de datos")
-        else:
-            print(tabulate([['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
-            imprimir_3_primeros_y_ultimos(lista)
+        
+        print ("Análisis del Indicador")
+        resp = analisis_indic()
+        print(resp[0]) 
+        print(resp[0])
+
 
     if int(inputs[0]) == 3:
-        nombre=input("Escriba el nombre y el apellido del actor que desea buscar: ")
-        resp = filtro_por_actor(nombre,catalogo)
-        lista = resp[0]
-        lista= lista['value']
-        movie=0
-        tv=0
-        for dic_peli in lt.iterator(lista):
-            if dic_peli['type']=='Movie':
-                movie+=1
-            else:
-                tv+=1
-        if lista==False:
-            print("Lo sentimos, el actor buscado no se encuentra en la base de datos")
-        else:
-            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
-            imprimir_3_primeros_y_ultimos(lista)
+        nombre=input("Digíte el nombre de la empresa: ")
+        larga=input("Digíte la cantidad de caña larga: ")
+        mecanizada=input("Digíte la cantidad de caña larga: ")
+        resp = porcent_desperdicio(nombre,catalogo)
+        
+        desperdicio = resp[0]
+        cantidad = resp[0]
+        
+        print("El porcentaje de desperdicio de la empresa: " + nombre + " es de " + desperdicio)
+        print("La cantdad de caña desperdiciada actualmente es de: " + cantidad)
 
     if int(inputs[0]) == 4:
-        nombre=input("Inserte el género por el que desea buscar: ")
-        resp = filtro_por_genero(nombre,catalogo)
-        lista = resp[0]
-        lista= lista['value']
-        movie=0
-        tv=0
-        for dic_peli in lt.iterator(lista):
-            if dic_peli['type']=='Movie':
-                movie+=1
-            else:
-                tv+=1
-        if lista==False:
-            print("Lo sentimos, el género buscado no se encuentra en la base de datos")
-        else:
-            print(tabulate([["Movies",movie],['TV Show',tv]],headers=["type", "count"],tablefmt="fancy_grid" ))
-            imprimir_3_primeros_y_ultimos(lista)
+        nombre=input("Digíte el nombre de la empresa: ")
+        resp = para_porcent(nombre,catalogo)
 
+        personas = resp[0]
+        maquinas = resp[1]
+
+        print("Para obenter un porcentaje de desperdicio deseado, siguiendo el indicador.")
+        print("Los requisitos para la empresa " + nombre + " son los siguientes: ")
+        print ("Cantidad de personas: " + personas)
+        print ("Cantidad de máquinas: " + maquinas)
 printMenu()
 
 
