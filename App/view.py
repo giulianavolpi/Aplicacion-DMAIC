@@ -100,6 +100,7 @@ while True:
 
 
     if int(inputs[0]) == 3:
+        lista_imprimir = lt.newList()
         nombre=input("Digíte el nombre de la empresa: ")
         larga=input("Digíte la cantidad de caña larga: ")
         mecanizada=input("Digíte la cantidad de caña mecanizada: ")
@@ -107,21 +108,28 @@ while True:
         
         desperdicio = resp[0]
         cantidad = resp[1]
-        
-        print("El porcentaje de desperdicio de la empresa: " + nombre + " es de " + desperdicio)
-        print("La cantdad de caña desperdiciada actualmente es de: " + cantidad)
+        lt.addLast(lista_imprimir,desperdicio)
+        lt.addLast(lista_imprimir,cantidad)
+        print("El porcentaje de desperdicio de la empresa: " + nombre + " es de: ")
+        print (desperdicio)
+        print (cantidad)
+        #print(tabulate(lista_imprimir,headers=["Porcentaje Desperdicio","Cantidad de Caña Desperdiciada"],tablefmt="fancy_grid",maxcolwidths=[10,10]))
 
     if int(inputs[0]) == 4:
+        lista_imprimir = lt.newList()
         nombre=input("Digíte el nombre de la empresa: ")
         resp = para_porcent(nombre,catalogo)
 
         personas = resp[0]
         maquinas = resp[1]
 
+        lt.addLast(lista_imprimir,personas)
+        lt.addLast(lista_imprimir,maquinas)
         print("Para obenter un porcentaje de desperdicio deseado, siguiendo el indicador.")
         print("Los requisitos para la empresa " + nombre + " son los siguientes: ")
         print ("Cantidad de personas: " + personas)
         print ("Cantidad de máquinas: " + maquinas)
+        #print (tabulate(lista_imprimir, headers=["Operarios","Máquinas"],tablefmt="fancy_grid",maxcolwidths=[10,10]))
 printMenu()
 
 
