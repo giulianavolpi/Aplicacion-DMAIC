@@ -82,7 +82,6 @@ while True:
         
     if int(inputs[0]) == 1:
         
-        anio_consulta=input("Digite el año que desea consultar: ")
         print ("Bienvenido a la Aplicación DMAIC")
         print ("Se calculará el desperdicio en el manejo de caña larga y caña mecanizada en los vagones")
         resp=intro()
@@ -97,7 +96,7 @@ while True:
         print ("Análisis del Indicador")
         resp = analisis_indic()
         print(resp[0]) 
-        print(resp[0])
+        print(resp[1])
 
 
     if int(inputs[0]) == 3:
@@ -107,7 +106,7 @@ while True:
         resp = porcent_desperdicio(larga, mecanizada, nombre, catalogo)
         
         desperdicio = resp[0]
-        cantidad = resp[0]
+        cantidad = resp[1]
         
         print("El porcentaje de desperdicio de la empresa: " + nombre + " es de " + desperdicio)
         print("La cantdad de caña desperdiciada actualmente es de: " + cantidad)

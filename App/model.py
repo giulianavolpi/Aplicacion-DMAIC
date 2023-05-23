@@ -81,17 +81,11 @@ def agregarempresa(catalogo, llave, valor, clase):
 #  R. Intriducción al porgrama 
 #=========================================================
 def intro():
-    lista = lt.newList()
     intro = "A partir de las estadísticas del sector azucarero colombiano y de los datos brindados por el ingenio Riopaila y Castilla se realizó un programa para calcular y analizar el indicador de desempeño frente a distintas empresas. \nCon los valores se distintas empresas se puede calcular el porcentaje \nde desperdicio o para obtener un porcentaje desead se calcuan las cantidades de máquinas y de operarios necesariaos.\n Se llegó a la conclusión que el la mejor distribución entre caña larga y caña mecanizada es la siguiente: \n"
     porc = " Caña larga: 35%\n"
     porc2 = "Caña mecanizada : 65%"
-  
-    lt.addLast(lista, intro)
-    lt.addLast(lista, porc)
-    lt.addLast(lista, porc2)
     
-
-    return lista 
+    return intro, porc, porc2 
 
     
 
@@ -100,34 +94,31 @@ def intro():
 # R. Análisis Indicador 
 #=========================================================      
 def analisis_indic():
-    lista = lt.newList()
+    
     a = "El idicador de desempeño calcula la capacidad de desperdicio de caña por vagones al distribuir la caña entre un contre manual y uno mecanizado\n"
     b = "El cálculo del indicador es: Desperdicio = 1-(Capacidad de caña larga por vagón / Capacidad de caña mecanizada por vagón)\n"
-    lt.addLast(lista, a)
-    lt.addLast(lista,b)
- 
-    return lista 
+    
+    return a,b 
 
 #=========================================================
 # R. Cálculo de porcentaje desperdiciado
 #========================================================= 
 def porcent_desperdicio(larga, mecanizada, nombre, catalogo):
-    lista = lt.newList()
+   
     desp = 1 - (larga/mecanizada)
     if mp.contains(catalogo["nombre"],nombre)==True:
         cantidad= mp.get(catalogo['cantidad_cana'],nombre)
         cantidad = cantidad * desp
   
-    lt.addLast(lista,desp)
-    lt.addLast(lista,cantidad)
-    return lista
+   
+    return desp, cantidad
 
 
 #==================================================================
 # R. Requerimientos en máquinas y operarios para desperdicio mínimo
 #==================================================================
 def para_porcent(nombre, catalogo):
-    lista = lt.newList()
+
     if mp.contains(catalogo["nombre"],nombre)==True:
         cantidad= mp.get(catalogo['cantidad_cana'],nombre)
 
@@ -136,10 +127,9 @@ def para_porcent(nombre, catalogo):
 
         personas = round((larga/5.5),0)
         maquinas = round((mecan/160),0)
-        lt.addLast(lista,personas)
-        lt.addLast(lista,maquinas)
+     
     
-    return lista 
+    return personas, maquinas 
 
 #=========================================================
 # Funciones de comparación
