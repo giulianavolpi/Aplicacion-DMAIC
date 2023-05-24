@@ -96,7 +96,7 @@ while True:
        
         print("El porcentaje de desperdicio de la empresa " + nombre + "  y su cantidad de caña desperdiciada es de: ")
        
-        print(tabulate(lista_imprimir))
+        print(tabulate(lista_imprimir,headers='firstrow', tablefmt='fancy_grid'))
 
     if int(inputs[0]) == 4:
         
@@ -113,7 +113,7 @@ while True:
         lista_imprimir.append(personas)
         lista_imprimir.append(maquinas )
         lista_imprimir=[["Operarios","Máquinas"],[personas, maquinas]]
-        print(tabulate(lista_imprimir))
+        print(tabulate(lista_imprimir,headers='firstrow', tablefmt='fancy_grid'))
 
 printMenu()
 
