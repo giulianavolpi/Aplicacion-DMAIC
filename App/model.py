@@ -49,12 +49,10 @@ def crear_mapas(catalogo):
 
     base_de_datos = cf.data_dir + 'Base de Datos DMAIC' + '.csv'
     
-    input_file_datos = csv.DictReader(open(base_de_datos, encoding='utf-8'))
+    datos = csv.DictReader(open(base_de_datos, encoding='utf-8'))
 
-    datos = [input_file_datos]
-    for dato in datos: 
-        for empresa in dato:
-            print(empresa("nombre"))
+  
+    for empresa in datos: 
             agregarempresa(catalogo, empresa["nombre"], empresa, "nombre")
             agregarempresa(catalogo, empresa["toneladas_cana"], empresa, "toneladas_cana")
             agregarempresa(catalogo, empresa["cantidad_maquinas"], empresa, "cantidad_maquinas")
@@ -107,7 +105,8 @@ def porcent_desperdicio(larga, mecanizada, nombre, catalogo):
    
     desp = 1 - (larga/mecanizada)
     if mp.contains(catalogo["nombre"],nombre)==True:
-        cantidad= mp.get(catalogo['cantidad_cana'],nombre)
+        empresa= mp.get(catalogo['nombre'],nombre)["value"]
+        cantidad = empresa[0]["cantidad_cana"]
         cantidad = cantidad * desp
   
    
@@ -120,7 +119,8 @@ def porcent_desperdicio(larga, mecanizada, nombre, catalogo):
 def para_porcent(nombre, catalogo):
 
     if mp.contains(catalogo["nombre"],nombre)==True:
-        cantidad= mp.get(catalogo['cantidad_cana'],nombre)
+        empresa= mp.get(catalogo['nombre'],nombre)["value"]
+        cantidad = empresa[0]["cantidad_cana"]
 
         larga = cantidad * 0.35
         mecan = cantidad * 0.65
