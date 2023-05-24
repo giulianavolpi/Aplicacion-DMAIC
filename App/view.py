@@ -5,47 +5,34 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
-
-
-from time import strptime
-import config as cf
-import sys
-import controller
-from DISClib.ADT import list as lt
-from DISClib.ADT import map as mp
-assert cf
-from tabulate import tabulate
-import datetime as dt
-import model
-
-default_limit = 1000
-sys.setrecursionlimit(default_limit*10)
+#from DISClib.ADT import list as lt
+import model as mod
 
 #=========================================================
 # R. Intriducción al porgrama 
 #=========================================================
 def intro():
-    lista=controller.intro()
+    lista=mod.intro()
     return lista
 #=========================================================
 # R. Análisis Indicador 
 #=========================================================
 def analisis_indic():
-    lista=controller.analisis_indic()
+    lista=mod.analisis_indic()
     return lista
 
 #=========================================================
 # R. Cálculo de porcentaje desperdiciado
 #=========================================================
 def porcent_desperdicio(larga, mecanizada, nombre, catalogo):
-    lista=controller.porcent_desperdicio(larga, mecanizada, nombre, catalogo)
+    lista=mod.porcent_desperdicio(larga, mecanizada, nombre, catalogo)
     return lista
 
 #===================================================================
 # R. Requerimientos en máquinas y operarios para desperdicio mínimo
 #===================================================================
 def para_porcent(nombre,catalogo):
-    lista=controller.para_porcent(nombre,catalogo)
+    lista=mod.para_porcent(nombre,catalogo)
     return lista
 
 
@@ -61,7 +48,6 @@ def printMenu():
     print("4- Requisitos para desperdicio mínimo")
     print("11- Salir ")
 
-catalog = None
 
 #=========================================================
 # Menu principal
@@ -71,15 +57,11 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')  
     
     if int(inputs[0]) == 0:
-        #cargar los archivos
+        #cargar el archivo
         print("Cargando información de los archivos ....\n")
-        catalogo= controller.crear_catalogo()
-       
+        catalogo= mod.crear_catalogo()
         print('Datos cargados correctamente')
-       
-        
-
-        
+            
     if int(inputs[0]) == 1:
         
         print ("Bienvenido a la Aplicación DMAIC")
@@ -100,37 +82,35 @@ while True:
 
 
     if int(inputs[0]) == 3:
-        lista_imprimir = lt.newList()
+        #lista_imprimir = lt.newList()
         nombre=input("Digíte el nombre de la empresa: ")
-        larga=input("Digíte la cantidad de caña larga: ")
-        mecanizada=input("Digíte la cantidad de caña mecanizada: ")
+        larga=int(input("Digíte la capacidad de caña larga de su vagón: "))
+        mecanizada=int(input("Digíte la capacidad de caña mecanizada de su vagón: "))
         resp = porcent_desperdicio(larga, mecanizada, nombre, catalogo)
         
         desperdicio = resp[0]
         cantidad = resp[1]
-        lt.addLast(lista_imprimir,desperdicio)
-        lt.addLast(lista_imprimir,cantidad)
+        #lt.addLast(lista_imprimir,desperdicio)
+        #lt.addLast(lista_imprimir,cantidad)
         print("El porcentaje de desperdicio de la empresa: " + nombre + " es de: ")
         print (desperdicio)
         print (cantidad)
         #print(tabulate(lista_imprimir,headers=["Porcentaje Desperdicio","Cantidad de Caña Desperdiciada"],tablefmt="fancy_grid",maxcolwidths=[10,10]))
 
     if int(inputs[0]) == 4:
-        lista_imprimir = lt.newList()
+        #lista_imprimir = lt.newList()
         nombre=input("Digíte el nombre de la empresa: ")
         resp = para_porcent(nombre,catalogo)
 
         personas = resp[0]
         maquinas = resp[1]
 
-        lt.addLast(lista_imprimir,personas)
-        lt.addLast(lista_imprimir,maquinas)
+        #lt.addLast(lista_imprimir,personas)
+        #lt.addLast(lista_imprimir,maquinas)
         print("Para obenter un porcentaje de desperdicio deseado, siguiendo el indicador.")
         print("Los requisitos para la empresa " + nombre + " son los siguientes: ")
         print ("Cantidad de personas: " + personas)
         print ("Cantidad de máquinas: " + maquinas)
         #print (tabulate(lista_imprimir, headers=["Operarios","Máquinas"],tablefmt="fancy_grid",maxcolwidths=[10,10]))
 printMenu()
-
-
 

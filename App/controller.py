@@ -1,7 +1,7 @@
 ﻿"""
 El controlador se encarga de mediar entre la vista y el modelo.
 """
-
+"""
 import config as cf
 import model
 import csv
@@ -17,12 +17,6 @@ csv.field_size_limit(2147483647)
 
 def crear_catalogo():
     return model.crear_catalogo()
-
-def loadData(catalogo):
-    catalogo = model.crear_mapas(catalogo)
-
-    return catalogo
-
 #=========================================================
 # R. Intriducción al porgrama 
 #=========================================================
@@ -56,3 +50,4 @@ def para_porcent(nombre,catalogo):
     lista= model.para_porcent(nombre,catalogo)
    
     return lista
+"""

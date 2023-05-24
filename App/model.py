@@ -2,77 +2,30 @@
 Es la lógica del programa
 Donde se calculan los porcentajes del indicador
  """
-
-
-
-import config as cf
-from DISClib.ADT import list as lt
-from DISClib.ADT import map as mp
-from DISClib.DataStructures import mapentry as me
-from DISClib.Algorithms.Sorting import shellsort as sa
-from DISClib.Algorithms.Sorting import quicksort as qs
-assert cf
-import csv
-from datetime import time
-
-
-#=========================================================
-# Creamos el catalogo vacio
-#=========================================================
-def crear_catalogo():
-    catalog={}
-    catalog['id_empresa'] = mp.newMap(9688, 
-                        maptype = "CHAINING",
-                        loadfactor = 0.8)
-    catalog['nombre'] = mp.newMap(9688, 
-                        maptype = "CHAINING",
-                        loadfactor = 0.8)
-    catalog['toneladas_cana'] = mp.newMap(9688, 
-                        maptype = "CHAINING",
-                        loadfactor = 0.8)
-    catalog['cantidad_maquinas'] = mp.newMap(9688, 
-                        maptype = "CHAINING",
-                        loadfactor = 0.8)
-    catalog['operarios'] = mp.newMap(200, 
-                        maptype = "CHAINING",
-                        loadfactor = 0.8)
-    catalog['porcentaje_deseado']=mp.newMap(10000, 
-                        maptype = "CHAINING",
-                        loadfactor = 0.8)
-
-    return catalog
-
 #=========================================================
 # Llenamos el catalgo con la info
 #=========================================================
-def crear_mapas(catalogo):
 
-    base_de_datos = cf.data_dir + 'Base de Datos DMAIC' + '.csv'
-    
-    datos = csv.DictReader(open(base_de_datos, encoding='utf-8'))
+def crear_catalogo():
+    archivo = open ("base_datos.csv", 'r', encoding='utf-8')
+    datos=[]
+    encabezados=archivo.readline().strip().split (",")
 
-  
-    for empresa in datos: 
-            agregarempresa(catalogo, empresa["nombre"], empresa, "nombre")
-            agregarempresa(catalogo, empresa["toneladas_cana"], empresa, "toneladas_cana")
-            agregarempresa(catalogo, empresa["cantidad_maquinas"], empresa, "cantidad_maquinas")
-            agregarempresa(catalogo, empresa["operarios"], empresa, "operarios")
-            agregarempresa(catalogo, empresa["porcentaje_deseado"], empresa, "porcentaje")
-
-    return  catalogo
-
-def agregarempresa(catalogo, llave, valor, clase):
-    if mp.contains(catalogo[clase],llave)==True:
-        pareja=mp.get(catalogo[clase],llave)
-        lista=pareja['value']
-        lt.addLast(lista,valor)
-        mp.put(catalogo[clase],llave, lista )
-    else:
-        lista=lt.newList(datastructure="ARRAY_LIST")
-        lt.addLast(lista,valor)
-        mp.put(catalogo[clase],llave, lista )
-
-
+    for linea in archivo:
+        informacion = linea.strip().split(",")
+        
+        empresa={
+            "id_empresa":informacion [0],
+            encabezados [1]:informacion [1], 
+            encabezados [2]:int(informacion [2]),
+            encabezados [3]:int(informacion [3]),
+            encabezados [4]:int(informacion [4]),
+            encabezados [5]:float(informacion [5])}
+     
+        datos.append(empresa)
+        
+    archivo.close()
+    return datos
 
 
 #=========================================================
@@ -84,9 +37,6 @@ def intro():
     porc2 = "Caña mecanizada : 65%"
     
     return intro, porc, porc2 
-
-    
-
 
 #=========================================================
 # R. Análisis Indicador 
@@ -103,40 +53,26 @@ def analisis_indic():
 #========================================================= 
 def porcent_desperdicio(larga, mecanizada, nombre, catalogo):
    
-    desp = 1 - (larga/mecanizada)
-    if mp.contains(catalogo["nombre"],nombre)==True:
-        empresa= mp.get(catalogo['nombre'],nombre)["value"]
-        cantidad = empresa[0]["cantidad_cana"]
-        cantidad = cantidad * desp
-  
+    desp = 1- (larga/mecanizada)
+    for empresa in catalogo:
+        if empresa["nombre"] == nombre:
+            cantidad = empresa["toneladas_cana"]
+            cantidad = cantidad * desp
    
     return desp, cantidad
-
 
 #==================================================================
 # R. Requerimientos en máquinas y operarios para desperdicio mínimo
 #==================================================================
 def para_porcent(nombre, catalogo):
 
-    if mp.contains(catalogo["nombre"],nombre)==True:
-        empresa= mp.get(catalogo['nombre'],nombre)["value"]
-        cantidad = empresa[0]["cantidad_cana"]
+    for empresa in catalogo:
+        if empresa["nombre"] == nombre:
+            cantidad = empresa["toneladas_cana"]
+    larga = cantidad * 0.35
+    mecan = cantidad * 0.65
 
-        larga = cantidad * 0.35
-        mecan = cantidad * 0.65
-
-        personas = round((larga/5.5),0)
-        maquinas = round((mecan/160),0)
-     
+    personas = round((larga/5.5),0)
+    maquinas = round((mecan/160),0)
     
     return personas, maquinas 
-
-#=========================================================
-# Funciones de comparación
-#=========================================================
-def cmpsort(tupla1, tupla2):
-    resp=False
-    if tupla1[1]>tupla2[1]:
-        resp=True
-    return resp
-
