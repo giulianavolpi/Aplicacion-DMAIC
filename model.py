@@ -52,7 +52,6 @@ def analisis_indic():
 # R. Cálculo de porcentaje desperdiciado
 #========================================================= 
 def porcent_desperdicio(larga, mecanizada, nombre, catalogo):
-   
     desp = 1- (larga/mecanizada)
     for empresa in catalogo:
         if empresa["nombre"] == nombre:

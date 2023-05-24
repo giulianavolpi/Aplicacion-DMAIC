@@ -7,7 +7,7 @@ operación solicitada
 
 #from DISClib.ADT import list as lt
 import model as mod
-
+from tabulate import tabulate 
 #=========================================================
 # R. Intriducción al porgrama 
 #=========================================================
@@ -82,35 +82,38 @@ while True:
 
 
     if int(inputs[0]) == 3:
-        #lista_imprimir = lt.newList()
         nombre=input("Digíte el nombre de la empresa: ")
-        larga=int(input("Digíte la capacidad de caña larga de su vagón: "))
-        mecanizada=int(input("Digíte la capacidad de caña mecanizada de su vagón: "))
+        larga=float(input("Digíte la capacidad de caña larga de su vagón: "))
+        mecanizada=float(input("Digíte la capacidad de caña mecanizada de su vagón: "))
         resp = porcent_desperdicio(larga, mecanizada, nombre, catalogo)
         
         desperdicio = resp[0]
         cantidad = resp[1]
-        #lt.addLast(lista_imprimir,desperdicio)
-        #lt.addLast(lista_imprimir,cantidad)
-        print("El porcentaje de desperdicio de la empresa: " + nombre + " es de: ")
-        print (desperdicio)
-        print (cantidad)
-        #print(tabulate(lista_imprimir,headers=["Porcentaje Desperdicio","Cantidad de Caña Desperdiciada"],tablefmt="fancy_grid",maxcolwidths=[10,10]))
+        lista_imprimir = []
+        lista_imprimir.append(desperdicio)
+        lista_imprimir.append(cantidad )
+        lista_imprimir=[["Porcentaje Desperdicio","Cantidad de Caña Desperdiciada"],[desperdicio, cantidad]]
+       
+        print("El porcentaje de desperdicio de la empresa " + nombre + "  y su cantidad de caña desperdiciada es de: ")
+       
+        print(tabulate(lista_imprimir))
 
     if int(inputs[0]) == 4:
-        #lista_imprimir = lt.newList()
+        
         nombre=input("Digíte el nombre de la empresa: ")
         resp = para_porcent(nombre,catalogo)
 
         personas = resp[0]
         maquinas = resp[1]
 
-        #lt.addLast(lista_imprimir,personas)
-        #lt.addLast(lista_imprimir,maquinas)
         print("Para obenter un porcentaje de desperdicio deseado, siguiendo el indicador.")
         print("Los requisitos para la empresa " + nombre + " son los siguientes: ")
-        print ("Cantidad de personas: " + str(personas))
-        print ("Cantidad de máquinas: " + str(maquinas))
-        #print (tabulate(lista_imprimir, headers=["Operarios","Máquinas"],tablefmt="fancy_grid",maxcolwidths=[10,10]))
+    
+        lista_imprimir = []
+        lista_imprimir.append(personas)
+        lista_imprimir.append(maquinas )
+        lista_imprimir=[["Operarios","Máquinas"],[personas, maquinas]]
+        print(tabulate(lista_imprimir))
+
 printMenu()
 
