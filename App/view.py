@@ -109,8 +109,8 @@ while True:
         #lt.addLast(lista_imprimir,maquinas)
         print("Para obenter un porcentaje de desperdicio deseado, siguiendo el indicador.")
         print("Los requisitos para la empresa " + nombre + " son los siguientes: ")
-        print ("Cantidad de personas: " + personas)
-        print ("Cantidad de máquinas: " + maquinas)
+        print ("Cantidad de personas: " + str(personas))
+        print ("Cantidad de máquinas: " + str(maquinas))
         #print (tabulate(lista_imprimir, headers=["Operarios","Máquinas"],tablefmt="fancy_grid",maxcolwidths=[10,10]))
 printMenu()
 
