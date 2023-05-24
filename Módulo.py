@@ -1,7 +1,4 @@
-﻿"""
-Es la lógica del programa
-Donde se calculan los porcentajes del indicador
- """
+
 #=========================================================
 # Llenamos el catalgo con la info
 #=========================================================

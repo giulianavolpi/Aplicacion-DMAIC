@@ -1,12 +1,6 @@
-﻿"""
-La vista se encarga de la interacción con el usuario
-Presenta el menu de opciones y por cada seleccion
-se hace la solicitud al controlador para ejecutar la
-operación solicitada
-"""
 
 #from DISClib.ADT import list as lt
-import model as mod
+import Módulo as mod
 
 #=========================================================
 # R. Intriducción al porgrama 
@@ -84,8 +78,8 @@ while True:
     if int(inputs[0]) == 3:
         #lista_imprimir = lt.newList()
         nombre=input("Digíte el nombre de la empresa: ")
-        larga=int(input("Digíte la capacidad de caña larga de su vagón: "))
-        mecanizada=int(input("Digíte la capacidad de caña mecanizada de su vagón: "))
+        larga=int(input("Digíte la cantidad de caña larga: "))
+        mecanizada=int(input("Digíte la cantidad de caña mecanizada: "))
         resp = porcent_desperdicio(larga, mecanizada, nombre, catalogo)
         
         desperdicio = resp[0]
@@ -113,4 +107,3 @@ while True:
         print ("Cantidad de máquinas: " + maquinas)
         #print (tabulate(lista_imprimir, headers=["Operarios","Máquinas"],tablefmt="fancy_grid",maxcolwidths=[10,10]))
 printMenu()
-
