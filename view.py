@@ -87,8 +87,8 @@ while True:
         mecanizada=float(input("Digíte la capacidad de caña mecanizada de su vagón: "))
         resp = porcent_desperdicio(larga, mecanizada, nombre, catalogo)
         
-        desperdicio = resp[0]
-        cantidad = resp[1]
+        desperdicio = abs(round(resp[0],2))
+        cantidad = abs(round(resp[1],2))
         lista_imprimir = []
         lista_imprimir.append(desperdicio)
         lista_imprimir.append(cantidad )

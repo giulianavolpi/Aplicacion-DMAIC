@@ -68,10 +68,11 @@ def para_porcent(nombre, catalogo):
     for empresa in catalogo:
         if empresa["nombre"] == nombre:
             cantidad = empresa["toneladas_cana"]
-    larga = cantidad * 0.35
-    mecan = cantidad * 0.65
+            larga = cantidad * 0.35
+            mecan = cantidad * 0.65
 
     personas = round((larga/5.5),0)
     maquinas = round((mecan/160),0)
     
     return personas, maquinas 
+
